@@ -11,20 +11,20 @@ import javax.persistence.*;
 @Table(name = "tbl_product")
 public class Product extends BaseEntity {
 
-    @Column(name = "countProducts")
+    @Column(name = "count_products")
     private String countProducts;
 
-    @Column(name = "countStanok")
+    @Column(name = "count_stanok")
     private String countStanok;
 
-    @Column(name = "countBrak")
+    @Column(name = "count_brak")
     private String countBrak;
 
-    @Column(name = "countSaya")
+    @Column(name = "count_saya")
     private String countSaya;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_productModel")
+    @ManyToOne(fetch = FetchType.EAGER ,cascade=CascadeType.ALL)
+    @JoinColumn(name = "id_product_model")
     private ProductModel productModel;
 
 

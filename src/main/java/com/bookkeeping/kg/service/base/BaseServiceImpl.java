@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class BaseServiceImpl<Entity extends BaseEntity, Repository extends CommonRepository<Entity>> implements BaseService<Entity> {
 
-    private final Repository commonRepository;
+    protected final Repository commonRepository;
 
     public BaseServiceImpl(Repository commonRepository) {
         this.commonRepository = commonRepository;

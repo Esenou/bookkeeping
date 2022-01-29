@@ -12,6 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tbl_model_type")
 public class ProductTypeModel extends BaseEntity {
-    @Column(name = "nameType", nullable = false)
+    @Column(name = "name_type", nullable = false)
     private String nameType;
 }

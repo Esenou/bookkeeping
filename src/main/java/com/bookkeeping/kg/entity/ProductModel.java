@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Table(name = "tbl_model")
 public class ProductModel extends BaseEntity {
 
-    @Column(name = "nameModel", nullable = false)
+    @Column(name = "name_model", nullable = false)
     private String nameModel;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_productTypeModel")
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "id_product_type_model")
     private ProductTypeModel productTypeModel;
 
 }
