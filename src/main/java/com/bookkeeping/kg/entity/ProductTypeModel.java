@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbl_modelType")
+@Table(name = "tbl_model_type")
 public class ProductTypeModel extends BaseEntity {
     @Column(name = "nameType", nullable = false)
     private String nameType;

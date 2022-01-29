@@ -14,7 +14,7 @@ public class ProductModel extends BaseEntity {
     @Column(name = "nameModel", nullable = false)
     private String nameModel;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_productTypeModel")
     private ProductTypeModel productTypeModel;
 

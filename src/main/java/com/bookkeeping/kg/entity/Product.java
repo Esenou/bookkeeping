@@ -23,7 +23,7 @@ public class Product extends BaseEntity {
     @Column(name = "countSaya")
     private String countSaya;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_productModel")
     private ProductModel productModel;
 
