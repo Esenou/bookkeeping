@@ -1,0 +1,182 @@
+<!doctype html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}" lang="en">
+<head>
+    <title></title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="section-block" id="basicform">
+            <h3 class="section-title" th:text="${add} ? #{createForm.label.create} : #{updateForm.label.update}"></h3>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form action="#"
+                      th:action="${add} ? @{create} : @{/product/update/{id}(id = ${product.id})}"
+                      th:object="${product}"
+                      method="POST">
+
+                   <!-- <div class="form-group">
+                        <label for="nameModel" class="text-dark font-bold"
+                               data-th-text="#{user.label.nameModel}"></label>
+                        <input id="nameModel" type="text" class="form-control"
+                               th:value="${productModel} ? ${product.productModel.nameModel} : ' '"
+                               th:field="*{productModel.nameModel}">
+                        <p th:if="${#fields.hasErrors('productModel.nameModel')}" style="color:red;"
+                           th:errors="*{productModel.nameModel}">Incorrect LP</p>
+                    </div>-->
+
+                    <div class="form-group">
+
+                        <label class="text-danger font-bold" for="selectModelId"
+                               data-th-text="#{product.label.nameModel}">Name Model</label>
+                        <select th:field="*{productName.id}" class="form-control" id="selectModelId">
+                            <option value="" selected>----SELECT MODEL----</option>
+                            <option th:each="i : ${productNameList}" th:value="${i.id}"
+                                    th:text="${i.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-danger font-bold" for="selectTypeModelId"
+                               data-th-text="#{product.label.nameType}">Type Model</label>
+                        <select th:field="*{productType.id}" class="form-control" id="selectTypeModelId">
+                            <option value="" selected>----SELECT TYPE MODEL----</option>
+                            <option th:each="i : ${productTypeList}" th:value="${i.id}"
+                                    th:text="${i.type}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label for="nameType" class="text-dark font-bold"
+                               data-th-text="#{product.label.nameType}"></label>
+                        <input id="nameType" type="text" class="form-control"
+                               th:value="${productModel} ? ${product.productModel.productTypeModel.nameType} : ' '"
+                               th:field="*{productModel.productTypeModel.nameType}">
+                        <p th:if="${#fields.hasErrors('productModel.productTypeModel.nameType')}" style="color:red;"
+                           th:errors="*{productModel.productTypeModel.nameType}">Incorrect LP</p>
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="countProducts" class="text-dark font-bold"
+                               data-th-text="#{product.label.countProducts}"></label>
+                        <input id="countProducts" type="number" class="form-control"
+                               th:value="${countProducts} ? ${product.countProducts} : ' '"
+                               th:field="*{countProducts}">
+                        <p th:if="${#fields.hasErrors('countProducts')}" style="color:red;"
+                           th:errors="*{countProducts}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="countStanok" class="text-dark font-bold"
+                               data-th-text="#{product.label.countStanok}"></label>
+                        <input id="countStanok" type="number" class="form-control"
+                               th:value="${countStanok} ? ${product.countStanok} : ' '"
+                               th:field="*{countStanok}">
+                        <p th:if="${#fields.hasErrors('countStanok')}" style="color:red;"
+                           th:errors="*{countStanok}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="countBrak" class="text-dark font-bold"
+                               data-th-text="#{product.label.countBrak}"></label>
+                        <input id="countBrak" type="number" class="form-control"
+                               th:value="${countBrak} ? ${product.countBrak} : ' '"
+                               th:field="*{countBrak}">
+                        <p th:if="${#fields.hasErrors('countBrak')}" style="color:red;"
+                           th:errors="*{countBrak}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="countSaya" class="text-dark font-bold"
+                               data-th-text="#{product.label.countSaya}"></label>
+                        <input id="countSaya" type="number" class="form-control"
+                               th:value="${countSaya} ? ${product.countSaya} : ' '"
+                               th:field="*{countSaya}">
+                        <p th:if="${#fields.hasErrors('countSaya')}" style="color:red;"
+                           th:errors="*{countSaya}">Incorrect LP</p>
+                    </div>
+
+                    <button th:text="${add} ? #{button.label.create} : #{button.label.update} "
+                            th:class="${add} ? 'btn btn-success': 'btn btn-info' "
+                            type="submit" class="btn btn-success" data-toggle="tooltip"
+                            data-placement="top" title="Tooltip on top">
+                    </button>
+                    <a type="button" th:style="${add} ? 'visibility:hidden' : ''" class="btn btn-danger"
+                       data-toggle="modal" th:attr="data-target='#recordDeleteModal'+${product.id}"
+                       data-th-text="#{button.label.delete}"></a>
+                </form>
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModal'+${product.id}" tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalLabel"
+                                    data-th-text="#{button.label.delete_message}"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label data-th-text="#{productDetailPage.label.confirm_to_delete}"></label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        data-th-text="#{label.no}"></button>
+                                <form th:action="${add} ? @{/product/2} : @{/product/delete/{id}(id = ${product.id})}"
+                                      th:object="${product}" th:method="${add} ? 'GET' : 'POST'">
+                                    <button type="submit" class="btn btn-primary"
+                                            data-th-text="#{label.yes}"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal end -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+
+
+    $('#selectModelId').change(function() {
+        var modelId= $("#selectModelId option:selected").val();
+        console.log("esen :"+ modelId);
+        getList(modelId);
+    });
+
+    function getList(modelId){
+        $.ajax({
+            type: "GET",
+            url: '/product/getTypeModelList',
+            data: {id:modelId},
+            dataType: "json",
+            success: function(result) {
+                console.log(result);
+                if($.isArray(result)) {
+                    $("#selectTypeModelId").empty();
+                    for( var i = 0; i < result.length; i++){
+                        var id = result[i]['id'];
+                        var name = result[i]['typeName'];
+                        console.log(result[i]['typeName']);
+                        $("#selectTypeModelId").append("<option value='"+id+"'>"+name+"</option>");
+                    }
+                }
+                $('#selectTypeModelId').selectpicker('refresh');
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });
+    }
+</script>

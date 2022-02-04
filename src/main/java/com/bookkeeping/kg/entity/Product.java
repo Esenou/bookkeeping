@@ -23,9 +23,13 @@ public class Product extends BaseEntity {
     @Column(name = "count_saya")
     private String countSaya;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade=CascadeType.ALL)
-    @JoinColumn(name = "id_product_model")
-    private ProductModel productModel;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_product_name")
+    private ProductName productName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_product_type")
+    private ProductType productType;
 
 
 }
