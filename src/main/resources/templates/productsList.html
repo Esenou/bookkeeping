@@ -20,6 +20,14 @@
                         <a class="btn btn-success m-t-10" data-th-text="#{productList.label.create}" th:href="${'/product/form'}" >create</a>
                     </div>
                 </div>
+                <form class="row" th:action="@{/product/list}" method="get">
+                    <div id="custom-search" class="top-search-bar col">
+                        <input width="125px" class="form-control" type="text" name="search" th:placeholder="#{productList.label.search}">
+                    </div>
+                    <div class="col float-right">
+                        <button type="submit" class="btn btn-info m-t-10" data-th-text="#{button.label.search}"></button>
+                    </div>
+                </form>
             </div>
 
             <div  class="card-body p-0" >
@@ -55,7 +63,24 @@
 
             </div>
         </div>
-
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li th:if="${productsList.hasPrevious()}" class="page-item" >
+                    <a class="page-link" th:href="@{/product/list(page=${productsList.number-1})}" tabindex="-1" data-th-text="#{pagination.label.previous}"></a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(0, productsList.totalPages - 1)}">
+                    <li class="page-item active" th:if="${productsList.number == i}" >
+                        <span class="page-link">[[${i}+1]]</span>
+                    </li>
+                    <li th:unless="${productsList.number == i}">
+                        <a class="page-link" th:href="@{/product/list(page=${i})}">[[${i}+1]]</a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:if="${productsList.hasNext()}">
+                    <a class="page-link" th:href="@{/product/list(page=${productsList.number+1})}" data-th-text="#{pagination.label.next}"></a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>

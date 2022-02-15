@@ -30,7 +30,6 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
         this.productTypeService = productTypeService;
     }
 
-
     @Override
     public List<ProductName> findByAllProductName() {
         return productNameService.findByAll();

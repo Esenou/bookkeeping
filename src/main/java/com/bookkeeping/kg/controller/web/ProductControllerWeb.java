@@ -5,6 +5,9 @@ import com.bookkeeping.kg.entity.ProductType;
 import com.bookkeeping.kg.service.ProductNameService;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ProductTypeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,8 +27,16 @@ public class ProductControllerWeb {
     }
 
     @GetMapping("/list")
-    public String getList(Model model) {
-        List<Product> productsList = productService.findByAll();
+    public String getList(@RequestParam(value = "search", required = false) String search,
+                          @PageableDefault(7) Pageable pageable,
+                          Model model) {
+        Page<Product> productsList = null;
+        if(search != null && !search.isEmpty()){
+
+        } else {
+            productsList = productService.findByAllWithPagination(pageable);
+        }
+
         model.addAttribute("productsList", productsList);
         return "productsList";
     }

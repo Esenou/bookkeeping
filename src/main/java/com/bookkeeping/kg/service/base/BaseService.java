@@ -1,6 +1,8 @@
 package com.bookkeeping.kg.service.base;
 
 import com.bookkeeping.kg.entity.BaseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,4 +16,6 @@ public interface BaseService<T extends BaseEntity> {
     List<T> findByAll();
 
     T findById(Long id);
+
+    Page<T> findByAllWithPagination(Pageable pageable);
 }
