@@ -3,6 +3,7 @@ package com.bookkeeping.kg.service.impl;
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductName;
 import com.bookkeeping.kg.entity.ProductType;
+import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.repository.ProductRepository;
 import com.bookkeeping.kg.service.ProductNameService;
 import com.bookkeeping.kg.service.ProductService;
@@ -38,5 +39,10 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
     @Override
     public List<ProductType> findByAllProductType() {
         return productTypeService.findByAll();
+    }
+
+    @Override
+    public List<ReportsDto> getReport() {
+        return productRepository.getReport();
     }
 }
