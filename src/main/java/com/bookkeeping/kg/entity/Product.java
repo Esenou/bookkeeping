@@ -39,7 +39,7 @@ import javax.persistence.*;
                 "union all\n" +
                 "select\n" +
                 "    '',\n" +
-                "    'TOTAL:',\n" +
+                "    'ИТОГО:',\n" +
                 "    SUM(count_products) \"product\",\n" +
                 "    SUM(count_brak) \"brak workers\",\n" +
                 "    SUM(count_stanok) \"brak stanok\",\n" +
