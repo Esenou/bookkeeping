@@ -29,23 +29,23 @@ import javax.persistence.*;
         query = "select\n" +
                 "       (select product_name from tbl_product_name where id = id_product_name),\n" +
                 "       (select product_type from tbl_product_type where id = id_product_type),\n" +
-                "       SUM(count_products) \"product\",\n" +
-                "       SUM(count_brak) \"brak workers\",\n" +
-                "       SUM(count_stanok) \"brak stanok\",\n" +
-                "       SUM(count_saya) \"brak say\",\n" +
-                "       (SUM(count_products)+SUM(count_brak)+SUM(count_stanok)+SUM(count_saya)) \"ALL\"\n" +
-                "from tbl_product\n" +
+                "       SUM(p.count_products) \"product\",\n" +
+                "       SUM(p.count_brak) \"brak workers\",\n" +
+                "       SUM(p.count_stanok) \"brak stanok\",\n" +
+                "       SUM(p.count_saya) \"brak say\",\n" +
+                "       (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
+                "from tbl_product p where p.create_date BETWEEN :startDate AND :endDate " +
                 "group by id_product_name , id_product_type\n" +
                 "union all\n" +
                 "select\n" +
                 "    '',\n" +
                 "    'ИТОГО:',\n" +
-                "    SUM(count_products) \"product\",\n" +
-                "    SUM(count_brak) \"brak workers\",\n" +
-                "    SUM(count_stanok) \"brak stanok\",\n" +
-                "    SUM(count_saya) \"brak say\",\n" +
-                "    (SUM(count_products)+SUM(count_brak)+SUM(count_stanok)+SUM(count_saya)) \"ALL\"\n" +
-                "from tbl_product;", resultSetMapping = "ReportResult")
+                "    SUM(p.count_products) \"product\",\n" +
+                "    SUM(p.count_brak) \"brak workers\",\n" +
+                "    SUM(p.count_stanok) \"brak stanok\",\n" +
+                "    SUM(p.count_saya) \"brak say\",\n" +
+                "    (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
+                "from tbl_product p where p.create_date BETWEEN :startDate AND :endDate ", resultSetMapping = "ReportResult")
 
 
 public class Product extends BaseEntity {

@@ -1,5 +1,6 @@
 package com.bookkeeping.kg.service.impl;
 
+import com.bookkeeping.kg.dao.ReportDao;
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductName;
 import com.bookkeeping.kg.entity.ProductType;
@@ -11,6 +12,7 @@ import com.bookkeeping.kg.service.ProductTypeService;
 import com.bookkeeping.kg.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,13 +24,16 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
 
     private final ProductTypeService productTypeService;
 
+    private final ReportDao reportDao;
+
     public ProductServiceImpl(ProductRepository productRepository,
                               ProductNameService productNameService,
-                              ProductTypeService productTypeService) {
+                              ProductTypeService productTypeService, ReportDao reportDao) {
         super(productRepository);
         this.productRepository = productRepository;
         this.productNameService = productNameService;
         this.productTypeService = productTypeService;
+        this.reportDao = reportDao;
     }
 
     @Override
@@ -42,7 +47,8 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
     }
 
     @Override
-    public List<ReportsDto> getReport() {
-        return productRepository.getReport();
+    public List<ReportsDto> getReport(String dateFrom, String dateTo) {
+
+        return reportDao.getReportsByBetweenDate(dateFrom,dateTo);
     }
 }

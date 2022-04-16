@@ -1,26 +1,158 @@
 <!doctype html>
 <html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <head>
+    <title>Отчеты</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .progress {
+            height: 30px;
+        }
 
+        .progress > svg {
+            height: 100%;
+            display: block;
+        }
+    </style>
 
 </head>
 
 <body>
 <div layout:fragment="content">
-    <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
-        <div class="card">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card-header">
             <!--  Table header and 'Create' Button  -->
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h3 class="w-75 p-3" >Выроботка свод</h3>
-                    </div>
-
+            <div class="row">
+                <div class="col-md-10">
+                    <h3 class="w-75 p-3">Выроботка свод</h3>
                 </div>
             </div>
 
-            <div  class="card-body p-0" >
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="text-dark font-bold" for="dateFrom" data-th-text="#{label.date_from}">Date
+                        From:</label></br>
+                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                        <input type="text" name="dateFrom" class="form-control datetimepicker-input"
+                               id="dateFrom" required>
+                        <div class="input-group-append" data-target="#datetimepicker4"
+                             data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                        </div>
+                    </div>
+                    <p id="dateFromEr" style="color:red;"></p>
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark font-bold" for="dateTo" data-th-text="#{label.date_to}">Date
+                        To:</label></br>
+                    <div class="input-group date" id="datetimepicker5" data-target-input="nearest">
+                        <input type="text" name="dateTo" class="form-control datetimepicker-input"
+                               id="dateTo" required>
+                        <div class="input-group-append" data-target="#datetimepicker5"
+                             data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                        </div>
+                    </div>
+                    <p id="dateToEr" style="color:red;"></p>
+                </div>
+            </div>
+            <div style="text-align: right;" class="m-t-20">
+                <button id="download" class="btn btn-outline-success"
+                        data-placement="top" data-th-text="#{button.label.download}">
+                </button>
+            </div>
+
+            <script>
+
+                $(document).ready(function () {
+                    setDates();
+                });
+
+                function setDates() {
+                    const d = new Date()
+                    // document.getElementById('dateFrom').value = d.getDate()+'-'+(d.getMonth()+1) + '-' + d.getFullYear();
+                    document.getElementById('dateFrom').value = d.getDate() + '-' + (d.getMonth()) + '-' + d.getFullYear();
+                    document.getElementById('dateTo').value = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+                }
+
+
+
+                function printSales(dateFrom, dateTo) {
+                    var parts = dateFrom.split("-");
+                    var date_to_parts = dateTo.split("-");
+                    const date_from = parts[2] + '-' + parts[1] + '-' + parts[0]
+                    const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
+
+                    $.ajax({
+                        url: "/report/getProduction?&from=" + date_from + "&to=" + date_to,
+                        type: "GET",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        success: function (data) {
+                            console.log(data)
+                            if (!Object.keys(data).length) {
+                                alert("За выбранный период ничего не найдено!")
+                            } else {
+                                let i;
+                                let countSum = 0;
+                                let moneySum = 0;
+                              /*  for (i = 0; i < data.length; i++) {
+                                    countSum += data[i].count;
+                                    moneySum += data[i].summ;
+                                }*/
+                                printJS({
+                                    printable: data,
+                                    properties: [
+                                        {field: 'productName', displayName: 'Модели'},
+                                        {field: 'productType', displayName: 'Тип Модели'},
+                                        {field: 'product', displayName: 'Продукт'},
+                                        {field: 'brakWorkers', displayName: 'Брак Рабочие'},
+                                        {field: 'brakStanok', displayName: 'Брак Станок'},
+                                        {field: 'brakSay', displayName: 'Брак Сая'},
+                                        {field: 'all', displayName: 'Всего'}
+                                    ],
+                                    type: 'json',
+                                    header: ('Продажи.          Общее кол-во товаров:' + 100 + '\n Cумма:' + 111)
+
+                                });
+                            }
+                        },
+                        error: function (request, error) {
+                            alert("Что-то пошло не так!");
+                        }
+                    });
+
+                }
+
+                $('#download').on("click", function () {
+                    console.log("hello")
+                    document.getElementById("dateFromEr").innerHTML = "";
+                    document.getElementById("dateToEr").innerHTML = "";
+
+                    const typeId = $("#typeId option:selected").val();
+                    const dateFrom = document.getElementById("dateFrom").value;
+                    const dateTo = document.getElementById("dateTo").value;
+
+                    if (dateFrom === "") {
+                        document.getElementById("dateFromEr").innerHTML = "Поле не должно быть пустым!";
+                    } else if (dateTo === "") {
+                        document.getElementById("dateToEr").innerHTML = "Поле не должно быть пустым!";
+                    } else {
+                       /* if (typeId == 1) {
+                            printPurchase(dateFrom, dateTo);
+                        } else {
+                            printSales(dateFrom, dateTo);
+                        }*/
+                        printSales(dateFrom, dateTo);
+                    }
+
+                });
+            </script>
+
+            <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table">
                         <thead class="bg-light">
@@ -35,16 +167,16 @@
                         </tr>
                         </thead>
                         <tbody id="reportTableBody">
-                        <div  th:each="report : ${reportList}">
+                        <div th:each="report : ${reportList}">
                             <tr th:classappend="${report.productType == 'ИТОГО:'} ? table-info : table-light">
-                            <td th:text="${report.productName}"></td>
-                            <td th:text="${report.productType}"></td>
-                            <td th:text="${report.product}"></td>
-                            <td th:text="${report.brakWorkers}"></td>
-                            <td th:text="${report.brakStanok}"></td>
-                            <td th:text="${report.brakSay}"></td>
-                            <td th:text="${report.all}" ></td>
-                        </tr>
+                                <td th:text="${report.productName}"></td>
+                                <td th:text="${report.productType}"></td>
+                                <td th:text="${report.product}"></td>
+                                <td th:text="${report.brakWorkers}"></td>
+                                <td th:text="${report.brakStanok}"></td>
+                                <td th:text="${report.brakSay}"></td>
+                                <td th:text="${report.all}"></td>
+                            </tr>
                         </div>
                         <!--    end of looping     -->
                         </tbody>

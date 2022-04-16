@@ -1,5 +1,6 @@
 package com.bookkeeping.kg.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +21,8 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreationTimestamp
-    @Column(name = "create_date")
+    @Column(updatable = false, nullable = false,name = "create_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createDate= LocalDateTime.now();
 
 

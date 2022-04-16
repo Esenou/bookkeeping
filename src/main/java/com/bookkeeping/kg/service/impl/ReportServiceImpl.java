@@ -17,7 +17,13 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     @Override
-    public List<ReportsDto> getReport() {
-        return productService.getReport();
+    public List<ReportsDto> getReportAll() {
+
+        return null;//productService.getReport();
+    }
+
+    @Override
+    public List<ReportsDto> getReports(String dateFrom, String dateTo) {
+        return productService.getReport(dateFrom,dateTo);
     }
 }

@@ -10,6 +10,7 @@ import javax.persistence.ColumnResult;
 
 
 public class ReportsDto {
+
     public String productName;
     public String productType;
     public Double product;
@@ -17,16 +18,6 @@ public class ReportsDto {
     public Double brakStanok;
     public Double brakSay;
     public Double all;
-
-    public ReportsDto(String productName, String productType, Double product, Double brakWorkers, Double brakStanok, Double brakSay, Double all) {
-        this.productName = productName;
-        this.productType = productType;
-        this.product = product;
-        this.brakWorkers = brakWorkers;
-        this.brakStanok = brakStanok;
-        this.brakSay = brakSay;
-        this.all = all;
-    }
 
     public String getProductName() {
         return productName;
