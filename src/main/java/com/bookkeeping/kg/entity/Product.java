@@ -1,10 +1,13 @@
 package com.bookkeeping.kg.entity;
 
 import com.bookkeeping.kg.model.ReportsDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -69,5 +72,9 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product_type")
     private ProductType productType;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Employee> employees = new HashSet<>();
 
 }

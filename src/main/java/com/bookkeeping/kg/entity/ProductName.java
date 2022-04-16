@@ -14,4 +14,8 @@ import javax.persistence.Table;
 public class ProductName extends BaseEntity{
     @Column(name = "product_name", nullable = false)
     private String name;
+
+    @Column(name = "product_price", nullable = false)
+    private Double price;
+
 }
