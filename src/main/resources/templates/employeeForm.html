@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}" lang="en">
+<head>
+    <title></title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="section-block" id="basicform">
+            <h3 class="section-title" th:text="${add} ? #{createForm.label.create} : #{updateForm.label.update}"></h3>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form action="#"
+                      th:action="${add} ? @{create} : @{/employee/update/{id}(id = ${employee.id})}"
+                      th:object="${employee}"
+                      method="POST">
+
+                    <div class="form-group">
+                        <label for="name" class="text-dark font-bold"
+                               data-th-text="#{employee.label.surname}"></label>
+                        <input id="surname" type="text" class="form-control"
+                               th:value="${surname} ? ${employee.surname} : ' '"
+                               th:field="*{surname}">
+                        <p th:if="${#fields.hasErrors('name')}" style="color:red;"
+                           th:errors="*{name}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="text-dark font-bold"
+                               data-th-text="#{employee.label.name}"></label>
+                        <input id="name" type="text" class="form-control"
+                               th:value="${name} ? ${employee.name} : ' '"
+                               th:field="*{name}">
+                        <p th:if="${#fields.hasErrors('name')}" style="color:red;"
+                           th:errors="*{name}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="text-dark font-bold"
+                               data-th-text="#{employee.label.phone}"></label>
+                        <input id="phone" type="text" class="form-control"
+                               th:value="${phone} ? ${employee.phone} : ' '"
+                               th:field="*{phone}">
+                        <p th:if="${#fields.hasErrors('phone')}" style="color:red;"
+                           th:errors="*{phone}">Incorrect LP</p>
+                    </div>
+
+                    <button th:text="${add} ? #{button.label.create} : #{button.label.update} "
+                            th:class="${add} ? 'btn btn-success': 'btn btn-info' "
+                            type="submit" class="btn btn-success" data-toggle="tooltip"
+                            data-placement="top" title="Tooltip on top">
+                    </button>
+                    <a type="button" th:style="${add} ? 'visibility:hidden' : ''" class="btn btn-danger"
+                       data-toggle="modal" th:attr="data-target='#recordDeleteModal'+${employee.id}"
+                       data-th-text="#{button.label.delete}"></a>
+                </form>
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModal'+${employee.id}" tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalLabel"
+                                    data-th-text="#{button.label.delete_message}"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label data-th-text="#{productDetailPage.label.confirm_to_delete}"></label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        data-th-text="#{label.no}"></button>
+                                <form th:action="${add} ? @{/employee/2} : @{/employee/delete/{id}(id = ${employee.id})}"
+                                      th:object="${employee}" th:method="${add} ? 'GET' : 'POST'">
+                                    <button type="submit" class="btn btn-primary"
+                                            data-th-text="#{label.yes}"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal end -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
