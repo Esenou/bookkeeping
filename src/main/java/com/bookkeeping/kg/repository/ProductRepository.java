@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface ProductRepository extends CommonRepository<Product> {
 
-    @Query(nativeQuery = true, name = "getReport")
-    List<ReportsDto> getReport(LocalDateTime startDate, LocalDateTime endDate);
 }

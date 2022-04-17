@@ -13,44 +13,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "tbl_product")
-
-@SqlResultSetMapping(
-        name = "ReportResult",
-        classes = @ConstructorResult(
-                targetClass = ReportsDto.class,
-                columns = {
-                        @ColumnResult(name = "product_name",type = String.class),
-                        @ColumnResult(name = "product_type",type = String.class),
-                        @ColumnResult(name = "product",type = Double.class),
-                        @ColumnResult(name = "brak workers",type = Double.class),
-                        @ColumnResult(name = "brak stanok",type = Double.class),
-                        @ColumnResult(name = "brak say",type = Double.class),
-                        @ColumnResult(name = "ALL",type = Double.class)
-                }))
-
-@NamedNativeQuery(name = "getReport",
-        query = "select\n" +
-                "       (select product_name from tbl_product_name where id = id_product_name),\n" +
-                "       (select product_type from tbl_product_type where id = id_product_type),\n" +
-                "       SUM(p.count_products) \"product\",\n" +
-                "       SUM(p.count_brak) \"brak workers\",\n" +
-                "       SUM(p.count_stanok) \"brak stanok\",\n" +
-                "       SUM(p.count_saya) \"brak say\",\n" +
-                "       (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
-                "from tbl_product p where p.create_date BETWEEN :startDate AND :endDate " +
-                "group by id_product_name , id_product_type\n" +
-                "union all\n" +
-                "select\n" +
-                "    '',\n" +
-                "    'ИТОГО:',\n" +
-                "    SUM(p.count_products) \"product\",\n" +
-                "    SUM(p.count_brak) \"brak workers\",\n" +
-                "    SUM(p.count_stanok) \"brak stanok\",\n" +
-                "    SUM(p.count_saya) \"brak say\",\n" +
-                "    (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
-                "from tbl_product p where p.create_date BETWEEN :startDate AND :endDate ", resultSetMapping = "ReportResult")
-
-
 public class Product extends BaseEntity {
 
     @Column(name = "count_products")
