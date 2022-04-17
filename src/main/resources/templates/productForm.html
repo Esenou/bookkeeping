@@ -51,6 +51,18 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+
+                        <label>Employees:
+                        <input type="checkbox" name="madeProduct"
+                               th:each="employee : ${employeeList}"
+                               th:text="${employee.surname}"
+                               th:value="${employee.id}"
+                               th:field="*{employees}"
+                        />
+                        </label>
+
+                    </div>
                     <!--<div class="form-group">
                         <label for="nameType" class="text-dark font-bold"
                                data-th-text="#{product.label.nameType}"></label>

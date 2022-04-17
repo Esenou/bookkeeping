@@ -1,5 +1,6 @@
 package com.bookkeeping.kg.controller.web;
 
+import com.bookkeeping.kg.entity.Employee;
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductType;
 import com.bookkeeping.kg.service.ProductNameService;
@@ -48,6 +49,8 @@ public class ProductControllerWeb {
         model.addAttribute("product", new Product());
         model.addAttribute("productNameList",  productService.findByAllProductName());
         model.addAttribute("productTypeList",  productService.findByAllProductType());
+        model.addAttribute("employeeList",  productService.findByAllEmployee());
+        model.addAttribute("employee",  new Employee());
         return "productForm";
     }
 
@@ -56,6 +59,9 @@ public class ProductControllerWeb {
         Product product = productService.findById(id);
         model.addAttribute("add",false);
         model.addAttribute("product",product);
+        model.addAttribute("productNameList",  productService.findByAllProductName());
+        model.addAttribute("productTypeList",  productService.findByAllProductType());
+        model.addAttribute("employeeList",  productService.findByAllEmployee());
         return "productForm";
     }
 

@@ -25,5 +25,5 @@ public class Employee  extends BaseEntity {
     Double salary;
 
     @ManyToMany(mappedBy = "employees")
-    Set<Product> projects = new HashSet<>();
+    Set<Product> products = new HashSet<>();
 }

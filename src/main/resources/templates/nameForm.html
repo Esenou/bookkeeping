@@ -39,6 +39,16 @@
                            th:errors="*{price}">Incorrect LP</p>
                     </div>
 
+                    <div class="form-group">
+                        <label for="brakPrice" class="text-dark font-bold"
+                               data-th-text="#{product.label.nameModel.brakPrice}"></label>
+                        <input id="brakPrice" type="number" class="form-control"
+                               th:value="${brakPrice} ? ${productName.brakPrice} : ' '"
+                               th:field="*{brakPrice}">
+                        <p th:if="${#fields.hasErrors('price')}" style="color:red;"
+                           th:errors="*{price}">Incorrect LP</p>
+                    </div>
+
                     <button th:text="${add} ? #{button.label.create} : #{button.label.update} "
                             th:class="${add} ? 'btn btn-success': 'btn btn-info' "
                             type="submit" class="btn btn-success" data-toggle="tooltip"

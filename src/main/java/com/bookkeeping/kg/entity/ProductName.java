@@ -18,4 +18,7 @@ public class ProductName extends BaseEntity{
     @Column(name = "product_price", nullable = false)
     private Double price;
 
+    @Column(name = "brak_price", nullable = false)
+    private Double brakPrice;
+
 }
