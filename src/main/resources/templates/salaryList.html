@@ -27,7 +27,7 @@
             <!--  Table header and 'Create' Button  -->
             <div class="row">
                 <div class="col-md-10">
-                    <h3 class="w-75 p-3">Выработка свод</h3>
+                    <h3 class="w-75 p-3">ЗП сдельная</h3>
                 </div>
             </div>
 
@@ -87,7 +87,7 @@
                     const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
 
                     $.ajax({
-                        url: "/report/getProduction?&from=" + date_from + "&to=" + date_to,
+                        url: "/report/getSalary?&from=" + date_from + "&to=" + date_to,
                         type: "GET",
                         dataType: 'json',
                         contentType: "application/json",
@@ -97,25 +97,32 @@
                                 alert("За выбранный период ничего не найдено!")
                             } else {
                                 let i;
-                                let countSum = 0;
-                                let moneySum = 0;
-                              /*  for (i = 0; i < data.length; i++) {
-                                    countSum += data[i].count;
-                                    moneySum += data[i].summ;
-                                }*/
+                                let workerMadeCurrency = 0;
+                                let brakMadeCurrency = 0;
+                                let productMadeCurrency = 0;
+                                for (i = 0; i < data.length; i++) {
+                                    workerMadeCurrency += data[i].workerMadeCurrency;
+                                    brakMadeCurrency += data[i].brakMadeCurrency;
+                                    productMadeCurrency += data[i].productMadeCurrency;
+                                }
                                 printJS({
                                     printable: data,
                                     properties: [
                                         {field: 'productName', displayName: 'Модели'},
                                         {field: 'productType', displayName: 'Тип Модели'},
+                                        {field: 'workerName', displayName: 'Имя Рабочего'},
                                         {field: 'product', displayName: 'Продукт'},
-                                        {field: 'brakWorkers', displayName: 'Брак Рабочие'},
-                                        {field: 'brakStanok', displayName: 'Брак Станок'},
-                                        {field: 'brakSay', displayName: 'Брак Сая'},
-                                        {field: 'all', displayName: 'Всего'}
+                                        {field: 'workerBrak', displayName: 'Брак Рабочие'},
+                                        {field: 'productMadeCurrency', displayName: 'Сдельная пар'},
+                                        {field: 'brakMadeCurrency', displayName: 'Брак в Сомах'},
+                                        {field: 'workerMadeCurrency', displayName: 'Выплата'},
+                                        {field: 'createDate', displayName: 'Дата'},
                                     ],
                                     type: 'json',
-                                    header: ('Выработка свод')
+                                    header: ('          Общее кол-во \n' +
+                                        'сдельная пар:' + productMadeCurrency + '\n' +
+                                        'брак в сомах:' + brakMadeCurrency + '\n' +
+                                        'выплата:' + workerMadeCurrency + '\n')
 
                                 });
                             }
@@ -152,38 +159,6 @@
                 });
             </script>
 
-<!--            <div class="card-body p-0">-->
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table">-->
-<!--                        <thead class="bg-light">-->
-<!--                        <tr class="border-0">-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.productName}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.productType}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.product}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakWorkers}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakStanok}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakSay}"></th>-->
-<!--                            <th class="table-warning" data-th-text="#{reportList.label.all}"></th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody id="reportTableBody">-->
-<!--                        <div th:each="report : ${reportList}">-->
-<!--                            <tr th:classappend="${report.productType == 'ИТОГО:'} ? table-info : table-light">-->
-<!--                                <td th:text="${report.productName}"></td>-->
-<!--                                <td th:text="${report.productType}"></td>-->
-<!--                                <td th:text="${report.product}"></td>-->
-<!--                                <td th:text="${report.brakWorkers}"></td>-->
-<!--                                <td th:text="${report.brakStanok}"></td>-->
-<!--                                <td th:text="${report.brakSay}"></td>-->
-<!--                                <td th:text="${report.all}"></td>-->
-<!--                            </tr>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;    end of looping     &ndash;&gt;-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-
-<!--            </div>-->
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 package com.bookkeeping.kg.service.impl;
 
 import com.bookkeeping.kg.model.ReportsDto;
+import com.bookkeeping.kg.model.SalaryDto;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ReportService;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class ReportServiceImpl  implements ReportService {
     @Override
     public List<ReportsDto> getReports(String dateFrom, String dateTo) {
         return productService.getReport(dateFrom,dateTo);
+    }
+
+    @Override
+    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
+        return productService.getReportSalary(dateFrom,dateTo);
     }
 }

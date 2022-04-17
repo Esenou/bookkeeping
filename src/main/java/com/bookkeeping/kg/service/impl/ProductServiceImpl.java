@@ -6,6 +6,7 @@ import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductName;
 import com.bookkeeping.kg.entity.ProductType;
 import com.bookkeeping.kg.model.ReportsDto;
+import com.bookkeeping.kg.model.SalaryDto;
 import com.bookkeeping.kg.repository.EmployeeRepository;
 import com.bookkeeping.kg.repository.ProductRepository;
 import com.bookkeeping.kg.service.ProductNameService;
@@ -61,4 +62,11 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
 
         return reportDao.getReportsByBetweenDate(dateFrom,dateTo);
     }
+
+    @Override
+    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
+        return reportDao.getSalaryByBetweenDate(dateFrom,dateTo);
+    }
+
+
 }

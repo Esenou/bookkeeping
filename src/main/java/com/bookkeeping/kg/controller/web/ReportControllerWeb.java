@@ -2,6 +2,7 @@ package com.bookkeeping.kg.controller.web;
 
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.model.ReportsDto;
+import com.bookkeeping.kg.model.SalaryDto;
 import com.bookkeeping.kg.service.ReportService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,10 +32,23 @@ public class ReportControllerWeb {
         return "reportList";
     }
 
+    @GetMapping("/salary")
+    public String getSalaryList(Model model) {
+        //model.addAttribute("salaryList", reportService.getReportAll());
+        return "salaryList";
+    }
+
     @ResponseBody
     @GetMapping("/getProduction")
     public List<ReportsDto> getProduction (@RequestParam("from") String dateFrom,
                                            @RequestParam("to") String dateTo){
         return reportService.getReports(dateFrom, dateTo);
+    }
+
+    @ResponseBody
+    @GetMapping("/getSalary")
+    public List<SalaryDto> getSalary (@RequestParam("from") String dateFrom,
+                                      @RequestParam("to") String dateTo){
+        return reportService.getReportSalary(dateFrom, dateTo);
     }
 }
