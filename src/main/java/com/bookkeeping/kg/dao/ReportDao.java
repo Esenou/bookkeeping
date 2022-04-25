@@ -94,6 +94,9 @@ public class ReportDao {
                 se.printStackTrace();
             }
         }
+        if(arrayList.size()==1){
+            arrayList.remove(0);
+        }
         return arrayList;
     }
 

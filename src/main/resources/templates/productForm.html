@@ -24,7 +24,7 @@
                         <label class="text-danger font-bold" for="selectModelId"
                                data-th-text="#{product.label.nameModel}">Name Model</label>
                         <select th:field="*{productName.id}" class="form-control" id="selectModelId">
-                            <option value="" selected>----SELECT MODEL----</option>
+                            <option value="" selected> <span data-th-text="#{product.select.model}"/></option>
                             <option th:each="i : ${productNameList}" th:value="${i.id}"
                                     th:text="${i.name}">
                             </option>
@@ -36,7 +36,7 @@
                         <label class="text-danger font-bold" for="selectTypeModelId"
                                data-th-text="#{product.label.nameType}">Type Model</label>
                         <select th:field="*{productType.id}" class="form-control" id="selectTypeModelId">
-                            <option value="" selected>----SELECT TYPE MODEL----</option>
+                            <option value="" selected><span data-th-text="#{product.select.type.model}"/></option>
                             <option th:each="i : ${productTypeList}" th:value="${i.id}"
                                     th:text="${i.type}">
                             </option>
@@ -47,7 +47,7 @@
 
                     <div class="form-group">
 
-                        <label>Employees:
+                        <label><span data-th-text="#{product.label.employee}"/>
                         <input type="checkbox" name="madeProduct"
                                th:each="employee : ${employeeList}"
                                th:text="${employee.surname}"
