@@ -13,7 +13,9 @@ import com.bookkeeping.kg.service.ProductNameService;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ProductTypeService;
 import com.bookkeeping.kg.service.base.BaseServiceImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -68,5 +70,9 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
         return reportDao.getSalaryByBetweenDate(dateFrom,dateTo);
     }
 
+    @Override
+    public Page<Product> findByProductNameOrProductType(Pageable pageable, String text) {
+        return productRepository.findByProductNameOrProductType(pageable,text);
+    }
 
 }

@@ -10,49 +10,47 @@
     <div class="menu-list">
         <meta charset="UTF-8">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+            <a class="d-xl-none d-lg-none"  data-th-text="#{left.menu}" href="#">Menu</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav flex-column">
                     <li class="nav-divider" >
-
                     </li>
                     <li class="nav-item ">
                         <div  >
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/product/list}">Выработка</a>
+                                    <a class="nav-link" data-th-text="#{left.production}" th:href="@{/product/list}">Production</a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/name/list}">Продукт Модел</a>
+                                    <a class="nav-link" data-th-text="#{left.product.model}" th:href="@{/name/list}">Product Model</a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/type/list}">Тип Модел</a>
+                                    <a class="nav-link" data-th-text="#{left.type.model}" th:href="@{/type/list}">Type Model</a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/employee/list}">Сотрудник</a>
+                                    <a class="nav-link" data-th-text="#{left.employee}" th:href="@{/employee/list}">Employee</a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/report/list}">Выработка свод</a>
+                                    <a class="nav-link" data-th-text="#{left.development.vault}" th:href="@{/report/list}">Development of the vault</a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/report/salary}">ЗП сдельная</a>
+                                    <a class="nav-link" data-th-text="#{left.salary}" th:href="@{/report/salary}">The salary is piecework</a>
                                 </li>
                             </ul>
                         </div>
-
                     </li>
                 </ul>
             </div>

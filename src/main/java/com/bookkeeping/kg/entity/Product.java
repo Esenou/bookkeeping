@@ -1,11 +1,12 @@
 package com.bookkeeping.kg.entity;
 
-import com.bookkeeping.kg.model.ReportsDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 public class Product extends BaseEntity {
 
     @Column(name = "count_products")
+    @NotNull
     private Double countProducts;
 
     @Column(name = "count_stanok")
@@ -29,10 +31,14 @@ public class Product extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product_name")
+    @NotNull
+    @Valid
     private ProductName productName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product_type")
+    @NotNull
+    @Valid
     private ProductType productType;
 
     @JsonIgnore

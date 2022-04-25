@@ -3,9 +3,7 @@ package com.bookkeeping.kg.controller.web;
 import com.bookkeeping.kg.entity.Employee;
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductType;
-import com.bookkeeping.kg.service.ProductNameService;
 import com.bookkeeping.kg.service.ProductService;
-import com.bookkeeping.kg.service.ProductTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -33,7 +31,7 @@ public class ProductControllerWeb {
                           Model model) {
         Page<Product> productsList = null;
         if(search != null && !search.isEmpty()){
-
+            productsList = productService.findByProductNameOrProductType(pageable,search);
         } else {
             productsList = productService.findByAllWithPagination(pageable);
         }
@@ -77,11 +75,14 @@ public class ProductControllerWeb {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("product") Product product,
+    public String create(@Valid @ModelAttribute("product") Product product,
                          BindingResult result, Model model){
         if (result.hasErrors()) {
             model.addAttribute("product",product);
             model.addAttribute("add", true);
+            model.addAttribute("productNameList",  productService.findByAllProductName());
+            model.addAttribute("productTypeList",  productService.findByAllProductType());
+            model.addAttribute("employeeList",  productService.findByAllEmployee());
             return "productForm";
         }
         productService.create(product);
