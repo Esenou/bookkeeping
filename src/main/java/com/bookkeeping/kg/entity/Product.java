@@ -32,13 +32,11 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product_name")
     @NotNull
-
     private ProductName productName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product_type")
     @NotNull
-
     private ProductType productType;
 
     @JsonIgnore
