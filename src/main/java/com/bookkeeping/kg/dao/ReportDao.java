@@ -38,8 +38,6 @@ public class ReportDao {
         try{
             connection = this.dataSource.getConnection();
             stmt = connection.createStatement();
-            //
-
             sql = String.format("select\n" +
                     "       (select product_name from tbl_product_name where id = id_product_name),\n" +
                     "       (select product_type from tbl_product_type where id = id_product_type),\n" +
@@ -118,7 +116,7 @@ public class ReportDao {
                     "    e.name \"name_workers\",\n" +
                     "    p.count_products / (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) \"product\",\n" +
                     "    p.count_brak / (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) \"brak_workers\",\n" +
-                    "    p.count_products*(select product_price from tbl_product_name where id = p.id_product_name) \"made_product_currency\",\n" +
+                    "    (p.count_products / (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) ) * (select product_price from tbl_product_name where id = p.id_product_name) \"made_product_currency\",\n" +
                     "    (p.count_brak*(select brak_price from tbl_product_name where id = p.id_product_name)) /  (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) \"made_brak_currency\",\n" +
                     "    (p.count_products*(select product_price from tbl_product_name where id = p.id_product_name)) /  (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) -\n" +
                     "    (p.count_brak*(select brak_price from tbl_product_name where id = p.id_product_name)) /  (select count(products_id) from tbl_product_employees where products_id = p.id group by products_id) \"made_workers_currency\",\n" +
