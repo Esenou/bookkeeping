@@ -98,7 +98,7 @@ public class ReportDao {
         return arrayList;
     }
 
-    public List<SalaryDto> getSalaryByBetweenDate(String dateFrom, String dateTo) {
+    public List<SalaryDto> getDetailSalaryReport(String dateFrom, String dateTo) {
 
         List<SalaryDto> arrayList = new ArrayList<>();
         Connection connection = null;
@@ -167,4 +167,54 @@ public class ReportDao {
         }
         return arrayList;
     }
+
+    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
+
+        List<SalaryDto> arrayList = new ArrayList<>();
+        Connection connection = null;
+        Statement stmt = null;
+        String sql;
+        try{
+            connection = this.dataSource.getConnection();
+            stmt = connection.createStatement();
+
+            sql = String.format("SELECT * FROM getsalaryinfo('%s','%s');", dateFrom, dateTo);
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            if(resultSet.next()){
+                do {
+                    SalaryDto model = new SalaryDto ();
+                    model.setWorkerId(resultSet.getString(1));
+                    model.setWorkerName(resultSet.getString(2));
+                    model.setProduct(resultSet.getDouble(3));
+                    model.setWorkerBrak(resultSet.getDouble(4));
+                    model.setProductMadeCurrency(resultSet.getDouble(5));
+                    model.setBrakMadeCurrency(resultSet.getDouble(6));
+                    model.setWorkerMadeCurrency(resultSet.getDouble(7));
+                    arrayList.add(model);
+                } while (resultSet.next());
+            } else {
+                System.out.println("result set is empty");
+            }
+            resultSet.close();
+        } catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    connection.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return arrayList;
+    }
+
 }

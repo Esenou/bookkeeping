@@ -22,9 +22,9 @@ public class ProductController extends BaseController<Product, ProductService> {
         this.productService = productService;
     }
 
-    @GetMapping("/getReport")
+    /*@GetMapping("/getReport")
     ResponseEntity<ReportsDto> getReport(@RequestParam("from") String dateFrom,
                                          @RequestParam("to") String dateTo){
         return new ResponseEntity(productService.getReport(dateFrom,dateTo), HttpStatus.OK);
-    }
+    }*/
 }

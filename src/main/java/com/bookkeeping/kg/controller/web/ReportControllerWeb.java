@@ -46,8 +46,15 @@ public class ReportControllerWeb {
     }
 
     @ResponseBody
-    @GetMapping("/getSalary")
+    @GetMapping("/getDetailReportSalary")
     public List<SalaryDto> getSalary (@RequestParam("from") String dateFrom,
+                                      @RequestParam("to") String dateTo){
+        return reportService.getDetailReportSalary(dateFrom, dateTo);
+    }
+
+    @ResponseBody
+    @GetMapping("/getReportSalary")
+    public List<SalaryDto> getReportSalary (@RequestParam("from") String dateFrom,
                                       @RequestParam("to") String dateTo){
         return reportService.getReportSalary(dateFrom, dateTo);
     }

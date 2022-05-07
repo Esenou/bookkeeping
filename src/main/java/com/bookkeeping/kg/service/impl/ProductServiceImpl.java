@@ -60,17 +60,6 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
 
 
     @Override
-    public List<ReportsDto> getReport(String dateFrom, String dateTo) {
-
-        return reportDao.getReportsByBetweenDate(dateFrom,dateTo);
-    }
-
-    @Override
-    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
-        return reportDao.getSalaryByBetweenDate(dateFrom,dateTo);
-    }
-
-    @Override
     public Page<Product> findByProductNameOrProductType(Pageable pageable, String text) {
         return productRepository.findByProductNameOrProductType(pageable,text);
     }

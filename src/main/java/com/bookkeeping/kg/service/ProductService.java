@@ -21,8 +21,4 @@ public interface ProductService extends BaseService<Product> {
     List<ProductType> findByAllProductType();
 
     List<Employee> findByAllEmployee();
-
-    List<ReportsDto> getReport(String dateFrom, String dateTo);
-
-    List<SalaryDto> getReportSalary(String dateFrom, String dateTo);
 }
