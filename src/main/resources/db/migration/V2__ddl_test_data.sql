@@ -77,5 +77,5 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "user";
+alter function getsalaryinfo(text, text) owner to "somecupwkktpqv";
 
