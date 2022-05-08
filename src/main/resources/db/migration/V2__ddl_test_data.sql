@@ -23,6 +23,7 @@ INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (1, 
 INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (2, 2);
 INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (3, 1);
 
+INSERT INTO public.user_roles (user_id, roles) VALUES (1, 0);
 
 
 create function getsalaryinfo(from_date text, to_date text)
@@ -76,5 +77,5 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "somecupwkktpqv";
+alter function getsalaryinfo(text, text) owner to "user";
 

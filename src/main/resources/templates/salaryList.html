@@ -92,14 +92,7 @@
                     const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
 
                     let data = await getDetailSalaryReport(date_from, date_to);
-
-
-
-                    let infoSalary = await getSalaryReport(date_from, date_to);
-
                     console.log(data);
-
-                    console.log(infoSalary);
 
                     let i;
                     let workerMadeCurrency = 0;
@@ -112,7 +105,7 @@
                     }
 
                                 printJS({
-                                    printable:data,infoSalary,
+                                    printable:data,
                                     properties: [
                                         {field: 'productName', displayName: 'Модели'},
                                         {field: 'productType', displayName: 'Тип Модели'},
@@ -122,16 +115,7 @@
                                         {field: 'productMadeCurrency', displayName: 'Сдельная пар'},
                                         {field: 'brakMadeCurrency', displayName: 'Брак в Сомах'},
                                         {field: 'workerMadeCurrency', displayName: 'Выплата'},
-                                        {field: 'createDate', displayName: 'Дата'},
-
-                                    ],
-                                    properties: [
-                                        {field: 'workerName', displayName: 'Имя'},
-                                        {field: 'product', displayName: 'Продукт'},
-                                        {field: 'workerBrak', displayName: 'Брак Рабочие'},
-                                        {field: 'productMadeCurrency', displayName: 'Сдельная пар'},
-                                        {field: 'brakMadeCurrency', displayName: 'Брак в Сомах'},
-                                        {field: 'workerMadeCurrency', displayName: 'Выплата'}
+                                        {field: 'createDate', displayName: 'Дата'}
                                     ],
                                     type: 'json',
                                     header: ('          Общее кол-во \n' +
@@ -159,12 +143,29 @@
                     } else if (dateTo === "") {
                         document.getElementById("dateToEr").innerHTML = "Поле не должно быть пустым!";
                     } else {
-                       /* if (typeId == 1) {
-                            printPurchase(dateFrom, dateTo);
-                        } else {
-                            printSales(dateFrom, dateTo);
-                        }*/
                         printSales(dateFrom, dateTo);
+                    }
+
+                });
+                $('#excel').on("click", function () {
+                    console.log("hello")
+                    document.getElementById("dateFromEr").innerHTML = "";
+                    document.getElementById("dateToEr").innerHTML = "";
+
+                    const typeId = $("#typeId option:selected").val();
+                    const dateFrom = document.getElementById("dateFrom").value;
+                    const dateTo = document.getElementById("dateTo").value;
+
+                    if (dateFrom === "") {
+                        document.getElementById("dateFromEr").innerHTML = "Поле не должно быть пустым!";
+                    } else if (dateTo === "") {
+                        document.getElementById("dateToEr").innerHTML = "Поле не должно быть пустым!";
+                    } else {
+                        var parts = dateFrom.split("-");
+                        var date_to_parts = dateTo.split("-");
+                        const date_from = parts[2] + '-' + parts[1] + '-' + parts[0]
+                        const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
+                        getSalaryReport(date_from, date_to)
                     }
 
                 });

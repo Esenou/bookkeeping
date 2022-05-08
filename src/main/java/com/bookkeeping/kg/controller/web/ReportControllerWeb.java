@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -54,8 +55,8 @@ public class ReportControllerWeb {
 
     @ResponseBody
     @GetMapping("/getReportSalary")
-    public List<SalaryDto> getReportSalary (@RequestParam("from") String dateFrom,
-                                      @RequestParam("to") String dateTo){
-        return reportService.getReportSalary(dateFrom, dateTo);
+    public void getReportSalary (@RequestParam("from") String dateFrom,
+                                      @RequestParam("to") String dateTo,HttpServletResponse response) throws Exception {
+         reportService.getDetailReportSalaryXls(dateFrom, dateTo,response);
     }
 }
