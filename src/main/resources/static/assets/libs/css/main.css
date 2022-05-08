@@ -1,0 +1,16 @@
+.fa-file-excel-o:before {
+    padding: 0px 9px 0 0px;
+}
+.fa-file-pdf-o:before {
+    padding: 0px 9px 0 0px;
+}
+.navbar-toggler-icon-my {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background: no-repeat center center;
+    background-size: 100% 100%;
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger8.svg?color=ffffff');
+}

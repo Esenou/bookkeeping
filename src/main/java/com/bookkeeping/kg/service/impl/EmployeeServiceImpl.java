@@ -11,8 +11,8 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, EmployeeRepos
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository commonRepository, EmployeeRepository employeeRepository) {
-        super(commonRepository);
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        super(employeeRepository);
         this.employeeRepository = employeeRepository;
     }
 }

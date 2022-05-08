@@ -40,7 +40,7 @@
                                id="dateFrom" required>
                         <div class="input-group-append" data-target="#datetimepicker4"
                              data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                            <div class="input-group-text"><i class="fa fa-calendar-o"></i></div>
                         </div>
                     </div>
                     <p id="dateFromEr" style="color:red;"></p>
@@ -53,15 +53,19 @@
                                id="dateTo" required>
                         <div class="input-group-append" data-target="#datetimepicker5"
                              data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                            <div class="input-group-text"><i class="fa fa-calendar-o"></i></div>
                         </div>
                     </div>
                     <p id="dateToEr" style="color:red;"></p>
                 </div>
             </div>
             <div style="text-align: right;" class="m-t-20">
+                <button id="excel" class="btn btn-outline-success" data-placement="top">
+                    <i class="fa fa-file-excel-o" style="font-size:18px" data-th-text="#{button.label.download}"></i>
+                </button>
                 <button id="download" class="btn btn-outline-success"
-                        data-placement="top" data-th-text="#{button.label.download}">
+                        data-placement="top">
+                    <i class="fa fa-file-pdf-o" style="font-size:18px; color:red" data-th-text="#{button.label.download}"></i>
                 </button>
             </div>
 
