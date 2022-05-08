@@ -1,41 +1,26 @@
-insert into tbl_employee (id,create_date , update_date , name, phone, salary , surname )
-values ((SELECT nextval('tbl_employee_id_seq')),current_date,current_date,'Esen','0705000992', 1, 'Omurchiev');
 
-insert into tbl_employee (id,create_date , update_date , name, phone, salary , surname )
-values ((SELECT nextval('tbl_employee_id_seq')),current_date,current_date,'Urmat','0707234312', 1, 'Ulanov');
+INSERT INTO public.tbl_employee (id, create_date, update_date, name, phone, salary, surname) VALUES ((SELECT nextval('tbl_employee_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'Esen', '0705000992', 1, 'Omurchiev');
+INSERT INTO public.tbl_employee (id, create_date, update_date, name, phone, salary, surname) VALUES ((SELECT nextval('tbl_employee_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'Urmat', '0707234312', 1, 'Ulanov');
 
-insert into tbl_product_name (id, create_date, update_date, brak_price, product_name , product_price)
-values ((SELECT nextval('tbl_product_name_id_seq')), current_date ,current_date ,150,'XZ-3',4);
+INSERT INTO public.tbl_product_name (id, create_date, update_date, brak_price, product_name, product_price) VALUES ((SELECT nextval('tbl_product_name_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 150, 'XZ-3', 4);
+INSERT INTO public.tbl_product_name (id, create_date, update_date, brak_price, product_name, product_price) VALUES ((SELECT nextval('tbl_product_name_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 200, 'XM-101', 5);
+INSERT INTO public.tbl_product_name (id, create_date, update_date, brak_price, product_name, product_price) VALUES ((SELECT nextval('tbl_product_name_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 200, 'XG-301', 5);
 
-insert into tbl_product_name (id, create_date, update_date, brak_price, product_name , product_price)
-values ((SELECT nextval('tbl_product_name_id_seq')), current_date ,current_date ,200,'XM-101',5);
 
-insert into tbl_product_name (id, create_date, update_date, brak_price, product_name , product_price)
-values ((SELECT nextval('tbl_product_name_id_seq')), current_date ,current_date ,200,'XG-301',5);
+INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type) VALUES ((SELECT nextval('tbl_product_type_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'черный');
+INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type) VALUES ((SELECT nextval('tbl_product_type_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'коричневый');
+INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type) VALUES ((SELECT nextval('tbl_product_type_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'синий');
 
-insert into tbl_product_type (id, create_date, update_date , product_type )
-values ((SELECT nextval('tbl_product_type_id_seq')),current_date ,current_date ,'черный');
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 2, 3000, 1, 1, 1, 1);
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 2, 2000, 1, 1, 2, 1);
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 21:17:20.979000', '2022-05-08 21:17:20.979000', 1, 3000, 1, 1, 1, 1);
 
-insert into tbl_product_type (id, create_date, update_date , product_type )
-values ((SELECT nextval('tbl_product_type_id_seq')),current_date ,current_date ,'коричневый');
 
-insert into tbl_product_type (id, create_date, update_date , product_type )
-values ((SELECT nextval('tbl_product_type_id_seq')),current_date ,current_date ,'синий');
+INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (1, 1);
+INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (1, 2);
+INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (2, 2);
+INSERT INTO public.tbl_product_employees (products_id, employees_id) VALUES (3, 1);
 
-insert into tbl_product (id, create_date , update_date , count_brak, count_products , count_saya , count_stanok , id_product_name , id_product_type )
-values ((SELECT nextval('tbl_product_id_seq')),current_date ,current_date ,2,3000,1,1,1,1);
-
-insert into tbl_product (id, create_date , update_date , count_brak, count_products , count_saya , count_stanok , id_product_name , id_product_type )
-values ((SELECT nextval('tbl_product_id_seq')),current_date ,current_date ,2,2000,1,1,2,1);
-
-insert into tbl_product_employees (products_id , employees_id)
-values (1,1);
-
-insert into tbl_product_employees (products_id , employees_id)
-values (1,2);
-
-insert into tbl_product_employees (products_id , employees_id)
-values (2,2);
 
 
 create function getsalaryinfo(from_date text, to_date text)
@@ -89,5 +74,5 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "user";
+alter function getsalaryinfo(text, text) owner to "somecupwkktpqv";
 
