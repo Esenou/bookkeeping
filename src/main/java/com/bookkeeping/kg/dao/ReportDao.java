@@ -1,7 +1,9 @@
 package com.bookkeeping.kg.dao;
 
 import com.bookkeeping.kg.model.ReportsDto;
+import com.bookkeeping.kg.model.SalaryDetailInfoDto;
 import com.bookkeeping.kg.model.SalaryDto;
+import com.bookkeeping.kg.model.SalaryInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -98,9 +100,9 @@ public class ReportDao {
         return arrayList;
     }
 
-    public List<SalaryDto> getDetailSalaryReport(String dateFrom, String dateTo) {
+    public List<SalaryDetailInfoDto> getDetailSalaryReport(String dateFrom, String dateTo) {
 
-        List<SalaryDto> arrayList = new ArrayList<>();
+        List<SalaryDetailInfoDto> arrayList = new ArrayList<>();
         Connection connection = null;
         Statement stmt = null;
         String sql;
@@ -130,7 +132,7 @@ public class ReportDao {
 
             if(resultSet.next()){
                 do {
-                    SalaryDto model = new SalaryDto ();
+                    SalaryDetailInfoDto model = new SalaryDetailInfoDto();
                     model.setProductId(resultSet.getString(1));
                     model.setProductName(resultSet.getString(2));
                     model.setProductType(resultSet.getString(3));
@@ -168,9 +170,9 @@ public class ReportDao {
         return arrayList;
     }
 
-    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
+    public List<SalaryInfoDto> getReportSalary(String dateFrom, String dateTo) {
 
-        List<SalaryDto> arrayList = new ArrayList<>();
+        List<SalaryInfoDto> arrayList = new ArrayList<>();
         Connection connection = null;
         Statement stmt = null;
         String sql;
@@ -183,7 +185,7 @@ public class ReportDao {
 
             if(resultSet.next()){
                 do {
-                    SalaryDto model = new SalaryDto ();
+                    SalaryInfoDto model = new SalaryInfoDto();
                     model.setWorkerId(resultSet.getString(1));
                     model.setWorkerName(resultSet.getString(2));
                     model.setProduct(resultSet.getDouble(3));
@@ -215,6 +217,18 @@ public class ReportDao {
             }
         }
         return arrayList;
+    }
+
+    public SalaryDto salaryDto(String dateFrom, String dateTo){
+
+        List<SalaryInfoDto> salaryInfoDtoList = getReportSalary(dateFrom,dateTo);
+        List<SalaryDetailInfoDto> salaryDetailInfoDtoList = getDetailSalaryReport(dateFrom,dateTo);
+
+        SalaryDto salaryDto = new SalaryDto();
+        salaryDto.setSalaryInfoDtoList(salaryInfoDtoList);
+        salaryDto.setSalaryDetailInfoDtoList(salaryDetailInfoDtoList);
+
+        return salaryDto;
     }
 
 }

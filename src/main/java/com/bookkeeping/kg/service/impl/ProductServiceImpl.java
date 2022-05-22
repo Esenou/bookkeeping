@@ -5,8 +5,6 @@ import com.bookkeeping.kg.entity.Employee;
 import com.bookkeeping.kg.entity.Product;
 import com.bookkeeping.kg.entity.ProductName;
 import com.bookkeeping.kg.entity.ProductType;
-import com.bookkeeping.kg.model.ReportsDto;
-import com.bookkeeping.kg.model.SalaryDto;
 import com.bookkeeping.kg.repository.EmployeeRepository;
 import com.bookkeeping.kg.repository.ProductRepository;
 import com.bookkeeping.kg.service.ProductNameService;

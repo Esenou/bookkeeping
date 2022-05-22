@@ -2,7 +2,9 @@ package com.bookkeeping.kg.service.impl;
 
 import com.bookkeeping.kg.dao.ReportDao;
 import com.bookkeeping.kg.model.ReportsDto;
+import com.bookkeeping.kg.model.SalaryDetailInfoDto;
 import com.bookkeeping.kg.model.SalaryDto;
+import com.bookkeeping.kg.model.SalaryInfoDto;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ReportService;
 import com.bookkeeping.kg.service.report.ExcelService;
@@ -43,20 +45,22 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     @Override
-    public List<SalaryDto> getReportSalary(String dateFrom, String dateTo) {
+    public List<SalaryInfoDto> getReportSalary(String dateFrom, String dateTo) {
         return reportDao.getReportSalary(dateFrom,dateTo);
     }
 
     @Override
-    public List<SalaryDto> getDetailReportSalary(String dateFrom, String dateTo) {
+    public List<SalaryDetailInfoDto> getDetailReportSalary(String dateFrom, String dateTo) {
         return reportDao.getDetailSalaryReport(dateFrom,dateTo);
     }
 
     @Override
-    public List<SalaryDto> getDetailReportSalaryXls(String dateFrom, String dateTo, HttpServletResponse response) throws Exception {
+    public void getDetailReportSalaryXls(String dateFrom, String dateTo, HttpServletResponse response) throws Exception {
 
-        List<SalaryDto> reportList = reportDao.getReportSalary(dateFrom,dateTo);
-        ExcelService accountHistoryExcelService = new ExcelService( reportList, messageSource);
+        SalaryDto salaryDto = reportDao.salaryDto(dateFrom,dateTo);
+
+
+        ExcelService accountHistoryExcelService = new ExcelService(salaryDto, messageSource);
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -65,6 +69,5 @@ public class ReportServiceImpl  implements ReportService {
         String headerValue = "attachment; filename=account_history_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
         accountHistoryExcelService.export(response);
-        return reportList;
     }
 }

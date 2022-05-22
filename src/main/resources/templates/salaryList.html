@@ -165,7 +165,8 @@
                         var date_to_parts = dateTo.split("-");
                         const date_from = parts[2] + '-' + parts[1] + '-' + parts[0]
                         const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
-                        getSalaryReport(date_from, date_to)
+                      //  getSalaryReport(date_from, date_to)
+                        window.location = "/report/getReportSalary?&from=" + date_from + "&to=" + date_to;
                     }
 
                 });
