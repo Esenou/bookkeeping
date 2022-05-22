@@ -36,7 +36,7 @@ public class ExcelService {
     private MessageSource messageSource;
     private SalaryDto salaryDto;
 
-    public ExcelService(SalaryDto salaryDto, MessageSource messageSource) {
+    public ExcelService(SalaryDto salaryDto, MessageSource messageSource,Locale locale) {
         workbook = new XSSFWorkbook();
         this.sheet = workbook.createSheet("AccountHistory");
         this.locale = locale;

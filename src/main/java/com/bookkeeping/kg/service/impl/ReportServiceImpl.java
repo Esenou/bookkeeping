@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ReportServiceImpl  implements ReportService {
@@ -60,7 +61,7 @@ public class ReportServiceImpl  implements ReportService {
         SalaryDto salaryDto = reportDao.salaryDto(dateFrom,dateTo);
 
 
-        ExcelService accountHistoryExcelService = new ExcelService(salaryDto, messageSource);
+        ExcelService accountHistoryExcelService = new ExcelService(salaryDto, messageSource,new Locale("ru", "RU"));
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
