@@ -8,6 +8,7 @@ import com.bookkeeping.kg.model.SalaryInfoDto;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ReportService;
 import com.bookkeeping.kg.service.report.ExcelService;
+import com.bookkeeping.kg.service.report.ExcelServiceForProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class ReportServiceImpl  implements ReportService {
         SalaryDto salaryDto = reportDao.salaryDto(dateFrom,dateTo);
 
 
-        ExcelService accountHistoryExcelService = new ExcelService(salaryDto, messageSource,new Locale("ru", "RU"));
+        ExcelService excelService = new ExcelService(salaryDto, messageSource,new Locale("ru", "RU"));
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -69,6 +70,23 @@ public class ReportServiceImpl  implements ReportService {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=account_history_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
-        accountHistoryExcelService.export(response);
+        excelService.export(response);
     }
+
+    @Override
+    public void getReportsXls(String dateFrom, String dateTo, HttpServletResponse response) throws Exception {
+        List<ReportsDto> reportsDtoList = reportDao.getReportsByBetweenDate(dateFrom,dateTo);
+
+        ExcelServiceForProduct excelService = new ExcelServiceForProduct(reportsDtoList, messageSource,new Locale("ru", "RU"));
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=account_history_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        excelService.export(response);
+    }
+
+
 }

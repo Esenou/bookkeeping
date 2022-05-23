@@ -153,6 +153,29 @@
                     }
 
                 });
+
+                $('#excel').on("click", function () {
+                    console.log("hello")
+                    document.getElementById("dateFromEr").innerHTML = "";
+                    document.getElementById("dateToEr").innerHTML = "";
+
+                    const typeId = $("#typeId option:selected").val();
+                    const dateFrom = document.getElementById("dateFrom").value;
+                    const dateTo = document.getElementById("dateTo").value;
+
+                    if (dateFrom === "") {
+                        document.getElementById("dateFromEr").innerHTML = "Поле не должно быть пустым!";
+                    } else if (dateTo === "") {
+                        document.getElementById("dateToEr").innerHTML = "Поле не должно быть пустым!";
+                    } else {
+                        var parts = dateFrom.split("-");
+                        var date_to_parts = dateTo.split("-");
+                        const date_from = parts[2] + '-' + parts[1] + '-' + parts[0]
+                        const date_to = date_to_parts[2] + '-' + date_to_parts[1] + '-' + date_to_parts[0]
+                        //  getSalaryReport(date_from, date_to)
+                        window.location = "/report/getProduction/xls?&from=" + date_from + "&to=" + date_to;
+                    }
+                });
             </script>
 
 <!--            <div class="card-body p-0">-->

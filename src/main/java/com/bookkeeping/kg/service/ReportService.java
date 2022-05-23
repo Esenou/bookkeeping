@@ -13,4 +13,5 @@ public interface ReportService {
     List<SalaryDetailInfoDto> getDetailReportSalary(String dateFrom, String dateTo);
     List<SalaryInfoDto> getReportSalary(String dateFrom, String dateTo);
     void getDetailReportSalaryXls(String startDate, String endDate, HttpServletResponse response) throws Exception;
+    void getReportsXls(String dateFrom, String dateTo,HttpServletResponse response) throws Exception;
 }

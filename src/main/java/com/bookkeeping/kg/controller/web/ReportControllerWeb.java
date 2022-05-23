@@ -43,6 +43,13 @@ public class ReportControllerWeb {
     }
 
     @ResponseBody
+    @GetMapping("/getProduction/xls")
+    public void getProductionXls(@RequestParam("from") String dateFrom,
+                                           @RequestParam("to") String dateTo, HttpServletResponse response) throws Exception {
+        reportService.getReportsXls(dateFrom, dateTo, response);
+    }
+
+    @ResponseBody
     @GetMapping("/getDetailReportSalary")
     public List<SalaryDetailInfoDto> getSalary (@RequestParam("from") String dateFrom,
                                                 @RequestParam("to") String dateTo){
