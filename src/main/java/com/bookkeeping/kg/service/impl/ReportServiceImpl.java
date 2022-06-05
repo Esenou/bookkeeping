@@ -42,7 +42,7 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     @Override
-    public List<ReportsDto> getReports(String dateFrom, String dateTo) {
+    public ReportsDto getReports(String dateFrom, String dateTo) {
         return reportDao.getReportsByBetweenDate(dateFrom,dateTo);
     }
 
@@ -75,9 +75,9 @@ public class ReportServiceImpl  implements ReportService {
 
     @Override
     public void getReportsXls(String dateFrom, String dateTo, HttpServletResponse response) throws Exception {
-        List<ReportsDto> reportsDtoList = reportDao.getReportsByBetweenDate(dateFrom,dateTo);
+        ReportsDto reportsDto = reportDao.getReportsByBetweenDate(dateFrom,dateTo);
 
-        ExcelServiceForProduct excelService = new ExcelServiceForProduct(reportsDtoList, messageSource,new Locale("ru", "RU"));
+        ExcelServiceForProduct excelService = new ExcelServiceForProduct(reportsDto, messageSource,new Locale("ru", "RU"));
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());

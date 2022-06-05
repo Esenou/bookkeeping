@@ -46,6 +46,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="packaging" class="text-dark font-bold"
+                               data-th-text="#{product.label.packaging}"></label>
+                        <input id="packaging" type="number" class="form-control"
+                               th:value="${packaging} ? ${product.packaging} : ' '"
+                               th:field="*{packaging}">
+                        <p th:if="${#fields.hasErrors('packaging')}" style="color:red;"
+                           th:errors="*{packaging}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
 
                         <label><span data-th-text="#{product.label.employee}"/>
                         <input type="checkbox" name="madeProduct"
@@ -65,6 +75,16 @@
                                th:field="*{countProducts}">
                         <p th:if="${#fields.hasErrors('countProducts')}" style="color:red;"
                            th:errors="*{countProducts}">Incorrect LP</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inBags" class="text-dark font-bold"
+                               data-th-text="#{product.label.inBags}"></label>
+                        <input id="inBags" type="number" class="form-control"
+                               th:value="${inBags} ? ${product.inBags} : ' '"
+                               th:field="*{inBags}">
+                        <p th:if="${#fields.hasErrors('inBags')}" style="color:red;"
+                           th:errors="*{packaging}">Incorrect LP</p>
                     </div>
 
                     <div class="form-group">
@@ -97,6 +117,22 @@
                            th:errors="*{countSaya}">Incorrect LP</p>
                     </div>
 
+                    <div class="form-group">
+                        <label class="text-dark font-bold" for="DateField" data-th-text="#{createForm.label.create.date}">Create Date</label>
+                            <input type="date" name="dateFrom" class="form-control"
+                                   id="DateField" required th:value="${createDateProduct} ? ${product.createDateProduct} : ' '"
+                                   th:field="${product.createDateProduct}">
+                            <p th:if="${#fields.hasErrors('createDateProduct')}" style="color:red;"
+                               th:errors="*{createDateProduct}">Incorrect LP</p>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            setDates();
+                        });
+                        function setDates() {
+                            document.getElementById('DateField').valueAsDate = new Date();
+                        }
+                    </script>
                     <button th:text="${add} ? #{button.label.create} : #{button.label.update} "
                             th:class="${add} ? 'btn btn-success': 'btn btn-info' "
                             type="submit" class="btn btn-success" data-toggle="tooltip"

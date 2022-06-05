@@ -22,7 +22,7 @@ public abstract class BaseEntity {
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false,name = "create_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime createDate= LocalDateTime.now();
 
 

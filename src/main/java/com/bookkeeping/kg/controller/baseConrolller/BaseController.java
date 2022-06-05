@@ -1,4 +1,4 @@
-package com.bookkeeping.kg.controller.BaseConrolller;
+package com.bookkeeping.kg.controller.baseConrolller;
 
 
 import com.bookkeeping.kg.entity.BaseEntity;

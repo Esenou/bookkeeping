@@ -1,5 +1,5 @@
 create table tbl_employee (id  bigserial not null, create_date timestamp not null, update_date timestamp, name varchar(255), phone varchar(255), salary float8, surname varchar(255), primary key (id));
-create table tbl_product (id  bigserial not null, create_date timestamp not null, update_date timestamp, count_brak float8, count_products float8 not null, count_saya float8, count_stanok float8, id_product_name int8 not null, id_product_type int8 not null, primary key (id));
+create table tbl_product (id  bigserial not null, create_date timestamp not null, update_date timestamp, count_brak float8, count_products float8 not null, count_saya float8, count_stanok float8, in_bags float8 not null, packaging float8 not null, create_date_product date not null, id_product_name int8 not null, id_product_type int8 not null, primary key (id));
 create table tbl_product_employees (products_id int8 not null, employees_id int8 not null, primary key (products_id, employees_id));
 create table tbl_product_name (id  bigserial not null, create_date timestamp not null, update_date timestamp, brak_price float8 not null, product_name varchar(255) not null, product_price float8 not null, primary key (id));
 create table tbl_product_type (id  bigserial not null, create_date timestamp not null, update_date timestamp, product_type varchar(255) not null, primary key (id));

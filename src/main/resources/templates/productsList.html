@@ -37,9 +37,11 @@
                         <tr class="border-0">
                             <th class="border-0" data-th-text="#{productList.label.model}"></th>
                             <th class="border-0" data-th-text="#{productList.label.typeModel}"></th>
+                            <th class="border-0" data-th-text="#{productList.label.packaging}"></th>
                             <th class="border-0" data-th-text="#{productList.label.countProducts}"></th>
-                            <th class="border-0" data-th-text="#{productList.label.countStanok}"></th>
+                            <th class="border-0" data-th-text="#{productList.label.inBags}"></th>
                             <th class="border-0" data-th-text="#{productList.label.countBrak}"></th>
+                            <th class="border-0" data-th-text="#{productList.label.countStanok}"></th>
                             <th class="border-0" data-th-text="#{productList.label.countSaya}"></th>
                             <th class="border-0" data-th-text="#{productList.label.createDate}"></th>
                         </tr>
@@ -49,11 +51,13 @@
                         <tr th:each="product : ${productsList}">
                             <td th:text="${product.productName.name}"></td>
                             <td th:text="${product.productType.type}"></td>
+                            <td th:text="${product.packaging}"></td>
                             <td th:text="${product.countProducts}"></td>
-                            <td th:text="${product.countStanok}"></td>
+                            <td th:text="${product.inBags}"></td>
                             <td th:text="${product.countBrak}"></td>
+                            <td th:text="${product.countStanok}"></td>
                             <td th:text="${product.countSaya}"></td>
-                            <td th:text="${product.createDate}"></td>
+                            <td th:text="${product.createDateProduct}"></td>
                             <td><a th:href="${product.id}"><i class="fa fa-arrow-right"></i></a></td>
                         </tr>
                         <!--    end of looping     -->

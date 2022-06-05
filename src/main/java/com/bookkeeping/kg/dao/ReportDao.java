@@ -1,9 +1,6 @@
 package com.bookkeeping.kg.dao;
 
-import com.bookkeeping.kg.model.ReportsDto;
-import com.bookkeeping.kg.model.SalaryDetailInfoDto;
-import com.bookkeeping.kg.model.SalaryDto;
-import com.bookkeeping.kg.model.SalaryInfoDto;
+import com.bookkeeping.kg.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -32,51 +29,77 @@ public class ReportDao {
         }
     }
 
-    public List<ReportsDto> getReportsByBetweenDate(String dateFrom, String dateTo) {
-        List<ReportsDto> arrayList = new ArrayList<>();
+    public ReportsDto getReportsByBetweenDate(String dateFrom, String dateTo) {
+        List<ProductDto> productList = new ArrayList<>();
+        List<WorkerDto> workerList = new ArrayList<>();
         Connection connection = null;
         Statement stmt = null;
         String sql;
+        ResultSet resultSet;
         try{
             connection = this.dataSource.getConnection();
             stmt = connection.createStatement();
-            sql = String.format("select\n" +
-                    "       (select product_name from tbl_product_name where id = id_product_name),\n" +
-                    "       (select product_type from tbl_product_type where id = id_product_type),\n" +
-                    "       SUM(p.count_products) \"product\",\n" +
-                    "       SUM(p.count_brak) \"brak workers\",\n" +
-                    "       SUM(p.count_stanok) \"brak stanok\",\n" +
-                    "       SUM(p.count_saya) \"brak say\",\n" +
-                    "       (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
-                    "from tbl_product p where p.create_date BETWEEN '%s' AND '%s' " +
-                    "group by id_product_name , id_product_type\n" +
-                    "union all\n" +
-                    "select '',\n" +
-                    "    'ИТОГО:',\n" +
-                    "    SUM(p.count_products) \"product\",\n" +
-                    "    SUM(p.count_brak) \"brak workers\",\n" +
-                    "    SUM(p.count_stanok) \"brak stanok\",\n" +
-                    "    SUM(p.count_saya) \"brak say\",\n" +
-                    "    (SUM(p.count_products)+SUM(p.count_brak)+SUM(p.count_stanok)+SUM(p.count_saya)) \"ALL\"\n" +
-                    "from tbl_product p where p.create_date BETWEEN '%s' AND '%s' ", dateFrom, dateTo,dateFrom, dateTo);
-            ResultSet resultSet = stmt.executeQuery(sql);
+            sql = String.format("select   (select product_name from tbl_product_name where id = id_product_name),\n" +
+                    "                 (select product_type from tbl_product_type where id = id_product_type),\n" +
+                    "                  SUM(p.packaging) \"packaging\",\n" +
+                    "                  SUM(p.count_products) \"product\",\n" +
+                    "                  SUM(p.in_bags) \"in bags\",\n" +
+                    "                  SUM(p.count_brak) \"brak workers\",\n" +
+                    "                  SUM(p.count_stanok) \"brak stanok\",\n" +
+                    "                  SUM(p.count_saya) \"brak say\"\n" +
+                    "        from tbl_product p where p.create_date_product BETWEEN '%s' AND '%s'\n" +
+                    "            group by id_product_name , id_product_type\n" +
+                    "            union all\n" +
+                    "        select '',\n" +
+                    "               'ИТОГО:',\n" +
+                    "                SUM(p.packaging) \"packaging\",\n" +
+                    "                SUM(p.count_products) \"product\",\n" +
+                    "                SUM(p.in_bags) \"in bags\",\n" +
+                    "                SUM(p.count_brak) \"brak workers\",\n" +
+                    "                SUM(p.count_stanok) \"brak stanok\",\n" +
+                    "                SUM(p.count_saya) \"brak say\"\n" +
+                    "      from tbl_product p where p.create_date_product BETWEEN '%s' AND '%s' ", dateFrom, dateTo,dateFrom, dateTo);
+            resultSet = stmt.executeQuery(sql);
 
             if(resultSet.next()){
                 do {
-                    ReportsDto model = new ReportsDto ();
+                    ProductDto model = new ProductDto ();
                     model.setProductName(resultSet.getString(1));
                     model.setProductType(resultSet.getString(2));
-                    model.setProduct(resultSet.getDouble(3));
-                    model.setBrakWorkers(resultSet.getDouble(4));
-                    model.setBrakStanok(resultSet.getDouble(5));
-                    model.setBrakSay(resultSet.getDouble(6));
-                    model.setAll(resultSet.getDouble(7));
-                    arrayList.add(model);
+                    model.setPackaging(resultSet.getDouble(3));
+                    model.setProduct(resultSet.getDouble(4));
+                    model.setInBags(resultSet.getDouble(5));
+                    model.setBrakWorkers(resultSet.getDouble(6));
+                    model.setBrakStanok(resultSet.getDouble(7));
+                    model.setBrakSay(resultSet.getDouble(8));
+                    productList.add(model);
                 } while (resultSet.next());
             } else {
                 System.out.println("result set is empty");
             }
             resultSet.close();
+
+            sql = String.format("select emp.surname, emp.name from tbl_product prod inner join tbl_product_employees prod_emp\n" +
+                    "    on prod.id = prod_emp.products_id\n" +
+                    "    inner join tbl_employee  emp\n" +
+                    "        on emp.id = prod_emp.employees_id\n" +
+                    "where prod.create_date_product BETWEEN '%s' AND '%s'\n" +
+                    "group by emp.name, emp.surname", dateFrom, dateTo);
+
+
+            resultSet = stmt.executeQuery(sql);
+            if(resultSet.next()){
+                do {
+                    WorkerDto model = new WorkerDto ();
+                    model.setSurname(resultSet.getString(1));
+                    model.setName(resultSet.getString(2));
+                    workerList.add(model);
+                } while (resultSet.next());
+            } else {
+                System.out.println("result set is empty");
+            }
+            resultSet.close();
+
         } catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
@@ -94,10 +117,15 @@ public class ReportDao {
                 se.printStackTrace();
             }
         }
-        if(arrayList.size()==1){
-            arrayList.remove(0);
+
+        if(productList.size()==1){
+            productList.remove(0);
         }
-        return arrayList;
+        ReportsDto reportsDto = new ReportsDto();
+        reportsDto.setProductDtoList(productList);
+        reportsDto.setWorkerDtoList(workerList);
+
+        return reportsDto;
     }
 
     public List<SalaryDetailInfoDto> getDetailSalaryReport(String dateFrom, String dateTo) {

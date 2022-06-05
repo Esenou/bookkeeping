@@ -81,8 +81,6 @@
                     document.getElementById('dateTo').value = (d.getDate()+1) + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
                 }
 
-
-
                 function printSales(dateFrom, dateTo) {
                     var parts = dateFrom.split("-");
                     var date_to_parts = dateTo.split("-");
@@ -99,23 +97,17 @@
                             if (!Object.keys(data).length) {
                                 alert("За выбранный период ничего не найдено!")
                             } else {
-                                let i;
-                                let countSum = 0;
-                                let moneySum = 0;
-                              /*  for (i = 0; i < data.length; i++) {
-                                    countSum += data[i].count;
-                                    moneySum += data[i].summ;
-                                }*/
                                 printJS({
                                     printable: data,
                                     properties: [
-                                        {field: 'productName', displayName: 'Модели'},
-                                        {field: 'productType', displayName: 'Тип Модели'},
-                                        {field: 'product', displayName: 'Продукт'},
+                                        {field: 'productName', displayName: 'Модель'},
+                                        {field: 'productType', displayName: 'Вид Моделей'},
+                                        {field: 'packaging', displayName: 'Упаковка'},
+                                        {field: 'product', displayName: 'Кол. пар'},
+                                        {field: 'inBags', displayName: 'В мешках'},
                                         {field: 'brakWorkers', displayName: 'Брак Рабочие'},
                                         {field: 'brakStanok', displayName: 'Брак Станок'},
-                                        {field: 'brakSay', displayName: 'Брак Сая'},
-                                        {field: 'all', displayName: 'Всего'}
+                                        {field: 'brakSay', displayName: 'Брак Сая'}
                                     ],
                                     type: 'json',
                                     header: ('Выработка свод')
@@ -144,11 +136,6 @@
                     } else if (dateTo === "") {
                         document.getElementById("dateToEr").innerHTML = "Поле не должно быть пустым!";
                     } else {
-                       /* if (typeId == 1) {
-                            printPurchase(dateFrom, dateTo);
-                        } else {
-                            printSales(dateFrom, dateTo);
-                        }*/
                         printSales(dateFrom, dateTo);
                     }
 

@@ -1,5 +1,6 @@
 package com.bookkeeping.kg.controller.web;
 
+import com.bookkeeping.kg.model.ProductDto;
 import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.model.SalaryDetailInfoDto;
 import com.bookkeeping.kg.service.ReportService;
@@ -37,9 +38,9 @@ public class ReportControllerWeb {
 
     @ResponseBody
     @GetMapping("/getProduction")
-    public List<ReportsDto> getProduction (@RequestParam("from") String dateFrom,
-                                           @RequestParam("to") String dateTo){
-        return reportService.getReports(dateFrom, dateTo);
+    public List<ProductDto> getProduction (@RequestParam("from") String dateFrom,
+                                                     @RequestParam("to") String dateTo){
+        return reportService.getReports(dateFrom, dateTo).getProductDtoList();
     }
 
     @ResponseBody

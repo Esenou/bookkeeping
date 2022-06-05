@@ -11,9 +11,9 @@ INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type)
 INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type) VALUES ((SELECT nextval('tbl_product_type_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'коричневый');
 INSERT INTO public.tbl_product_type (id, create_date, update_date, product_type) VALUES ((SELECT nextval('tbl_product_type_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 'синий');
 
-INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 2, 3000, 1, 1, 1, 1);
-INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 00:00:00.000000', '2022-05-08 00:00:00.000000', 2, 2000, 1, 1, 2, 1);
-INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-05-08 21:17:20.979000', '2022-05-08 21:17:20.979000', 1, 3000, 1, 1, 1, 1);
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, in_bags, packaging,create_date_product, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-06-05 11:21:12.000000', '2022-06-05 11:22:57.000000', 2, 3000, 1, 1, 1, 1, '05-05-2022',1, 1);
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, in_bags, packaging,create_date_product, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-06-05 11:21:12.000000', '2022-06-05 11:22:57.000000', 2, 3000, 1, 1, 1, 1, '05-05-2022',2, 1);
+INSERT INTO public.tbl_product (id, create_date, update_date, count_brak, count_products, count_saya, count_stanok, in_bags, packaging,create_date_product, id_product_name, id_product_type) VALUES ((SELECT nextval('tbl_product_id_seq')), '2022-06-05 11:21:12.000000', '2022-06-05 11:22:57.000000', 1, 3000, 1, 1, 1, 1, '05-05-2022',1, 1);
 
 INSERT INTO public.tbl_user (id, create_date, update_date, password, username) VALUES ((SELECT nextval('tbl_user_id_seq')), '2022-05-09 01:38:02.000000', '2022-05-09 01:38:04.000000', '$2a$08$L0moD6DrrZM9PFdcDd0GQOkOuaO4GmNSpZBJ8UJRrTT7KhN1ybgpS', 'admin');
 
@@ -77,5 +77,6 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "somecupwkktpqv";
+alter function getsalaryinfo(text, text) owner to "user";
+
 
