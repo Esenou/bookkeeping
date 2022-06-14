@@ -2,6 +2,7 @@ package com.bookkeeping.kg.service.report;
 
 import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.model.SalaryDto;
+import com.bookkeeping.kg.model.salary.ReportSalaryInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -33,16 +34,16 @@ public class ExcelService {
     private List<Row> rows;
     private Locale locale;
     private MessageSource messageSource;
-    private SalaryDto salaryDto;
+    private ReportSalaryInfo salaryDto;
 
-    public ExcelService(SalaryDto salaryDto, MessageSource messageSource,Locale locale) {
+    public ExcelService(ReportSalaryInfo salaryDto, MessageSource messageSource, Locale locale) {
         workbook = new XSSFWorkbook();
         this.sheet = workbook.createSheet("salary");
         this.locale = locale;
         this.salaryDto = salaryDto;
         this.rows = new ArrayList<>();
         this.messageSource = messageSource;
-        IntStream.range(0, 16 + salaryDto.getSalaryDetailInfoDtoList().size()).forEach(i -> rows.add(sheet.createRow(i)));
+        IntStream.range(0, 16 + salaryDto.getProductInfoList().size()).forEach(i -> rows.add(sheet.createRow(i)));
     }
     String getLocaleMessage(String message){
         return messageSource.getMessage(message, null, locale);
@@ -64,26 +65,32 @@ public class ExcelService {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));
         createCell(rows.get(0), 0, getLocaleMessage("report.description"), styleHaeder);
 
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 10, 15));
-        createCell(rows.get(0), 10, getLocaleMessage("report.salary.description"), styleHaeder);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 13, 18));
+        createCell(rows.get(0), 13, getLocaleMessage("report.salary.description"), styleHaeder);
 
         createCell(rows.get(1), 0, getLocaleMessage("report.productName"), styleHaeder);
         createCell(rows.get(1), 1, getLocaleMessage("report.productType"), styleHaeder);
-        createCell(rows.get(1), 2, getLocaleMessage("report.workerName"), styleHaeder);
+
+        createCell(rows.get(1), 2, getLocaleMessage("report.packaging"), styleHaeder);
         createCell(rows.get(1), 3, getLocaleMessage("report.product.name"), styleHaeder);
-        createCell(rows.get(1), 4, getLocaleMessage("report.workerBrak"), styleHaeder);
-        createCell(rows.get(1), 5, getLocaleMessage("report.productMadeCurrency"), styleHaeder);
-        createCell(rows.get(1), 6, getLocaleMessage("report.brakMadeCurrency"), styleHaeder);
-        createCell(rows.get(1), 7, getLocaleMessage("report.workerMadeCurrency"), styleHaeder);
-        createCell(rows.get(1), 8, getLocaleMessage("report.createDate"), styleHaeder);
+
+        createCell(rows.get(1), 4, getLocaleMessage("report.in.bags"), styleHaeder);
+
+        createCell(rows.get(1), 5, getLocaleMessage("report.workerBrak"), styleHaeder);
+        createCell(rows.get(1), 6, getLocaleMessage("report.stanokBrak"), styleHaeder);
+        createCell(rows.get(1), 7, getLocaleMessage("report.sayBrak"), styleHaeder);
+        createCell(rows.get(1), 8, getLocaleMessage("report.productMadeCurrency"), styleHaeder);
+        createCell(rows.get(1), 9, getLocaleMessage("report.brakMadeCurrency"), styleHaeder);
+        createCell(rows.get(1), 10, getLocaleMessage("report.workerMadeCurrency"), styleHaeder);
+        createCell(rows.get(1), 11, getLocaleMessage("report.createDate"), styleHaeder);
 
 
-        createCell(rows.get(1), 10, getLocaleMessage("report.name.worker"), styleHaeder);
-        createCell(rows.get(1), 11, getLocaleMessage("report.product"), styleHaeder);
-        createCell(rows.get(1), 12, getLocaleMessage("report.brak.workers"), styleHaeder);
-        createCell(rows.get(1), 13, getLocaleMessage("report.made.product.currency"), styleHaeder);
-        createCell(rows.get(1), 14, getLocaleMessage("report.made.brak.currency"), styleHaeder);
-        createCell(rows.get(1), 15, getLocaleMessage("report.workers.currency"), styleHaeder);
+
+
+        createCell(rows.get(1), 13, getLocaleMessage("rep.surname.worker"), styleHaeder);
+        createCell(rows.get(1), 14, getLocaleMessage("report.name.worker"), styleHaeder);
+        createCell(rows.get(1), 15, getLocaleMessage("report.workerMadeCurrency"), styleHaeder);
+
     }
 
     private void writeTransactionDataLines() {
@@ -92,29 +99,29 @@ public class ExcelService {
         font.setFontHeight(8);
         style.setFont(font);
 
-        salaryDto.getSalaryDetailInfoDtoList().forEach(tr -> {
+        salaryDto.getProductInfoList().forEach(tr -> {
             int columnNum = 0;
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum, tr.getProductName(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 1, tr.getProductType().toString(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 2, tr.getWorkerName().toString(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 3, tr.getProduct(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 4, tr.getWorkerBrak(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 5, tr.getProductMadeCurrency(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 6, tr.getBrakMadeCurrency(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 7, tr.getWorkerMadeCurrency(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryDetailInfoDtoList().indexOf(tr)), columnNum + 8, tr.getCreateDate().toString(), style);
-
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum, tr.getProductName(), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 1, tr.getProductType(), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 2, String.valueOf(tr.getPackaging()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 3, String.valueOf(tr.getProduct()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 4, String.valueOf(tr.getInBags()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 5, String.valueOf(tr.getBrakWorkers()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 6, String.valueOf(tr.getBrakStanok()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 7, String.valueOf(tr.getBrakSay()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 8, String.valueOf(tr.getMadeProductCurrency()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 9, String.valueOf(tr.getMadeBrakCurrency()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 10, String.valueOf(tr.getMadeWorkersCurrency()), style);
+            createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 11, tr.getDate().toString(), style);
         });
 
-       salaryDto.getSalaryInfoDtoList().forEach(tr -> {
-            int columnNum = 10;
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum, tr.getWorkerName(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum + 1, tr.getProduct().toString(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum + 2, tr.getWorkerBrak().toString(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum + 3, tr.getProductMadeCurrency(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum + 4, tr.getBrakMadeCurrency(), style);
-            createCell(this.rows.get(2 + salaryDto.getSalaryInfoDtoList().indexOf(tr)), columnNum + 5, tr.getWorkerMadeCurrency(), style);
+        createCell(this.rows.get(salaryDto.getProductInfoList().size()+2),  10, String.valueOf(salaryDto.getSalaryInfo().getCountProduct()), style);
 
+       salaryDto.getEmpInfoList().forEach(tr -> {
+            int columnNum = 13;
+            createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum, tr.getSurname(), style);
+            createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum + 1, tr.getName().toString(), style);
+            createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum + 2, String.valueOf(tr.getSalary()), style);
        });
     }
 

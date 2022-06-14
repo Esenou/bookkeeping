@@ -1,16 +1,17 @@
 package com.bookkeeping.kg.dao;
 
 import com.bookkeeping.kg.model.*;
+import com.bookkeeping.kg.model.salary.EmpInfo;
+import com.bookkeeping.kg.model.salary.ProductInfo;
+import com.bookkeeping.kg.model.salary.ReportSalaryInfo;
+import com.bookkeeping.kg.model.salary.SalaryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,9 +199,12 @@ public class ReportDao {
         return arrayList;
     }
 
-    public List<SalaryInfoDto> getReportSalary(String dateFrom, String dateTo) {
+    public ReportSalaryInfo getReportSalary(String dateFrom, String dateTo) {
 
-        List<SalaryInfoDto> arrayList = new ArrayList<>();
+        List<EmpInfo> empInfoList = new ArrayList<>();
+        List<ProductInfo> productInfoList = new ArrayList<>();
+        SalaryInfo salaryInfo = null;
+
         Connection connection = null;
         Statement stmt = null;
         String sql;
@@ -208,25 +212,85 @@ public class ReportDao {
             connection = this.dataSource.getConnection();
             stmt = connection.createStatement();
 
-            sql = String.format("SELECT * FROM getsalaryinfo('%s','%s');", dateFrom, dateTo);
-            ResultSet resultSet = stmt.executeQuery(sql);
+            sql = String.format("SELECT * FROM  getsalary('%s','%s');", dateFrom, dateTo);
 
+
+            ResultSet resultSet = resultSet = stmt.executeQuery(sql);
             if(resultSet.next()){
                 do {
-                    SalaryInfoDto model = new SalaryInfoDto();
-                    model.setWorkerId(resultSet.getString(1));
-                    model.setWorkerName(resultSet.getString(2));
-                    model.setProduct(resultSet.getDouble(3));
-                    model.setWorkerBrak(resultSet.getDouble(4));
-                    model.setProductMadeCurrency(resultSet.getDouble(5));
-                    model.setBrakMadeCurrency(resultSet.getDouble(6));
-                    model.setWorkerMadeCurrency(resultSet.getDouble(7));
-                    arrayList.add(model);
+                    salaryInfo = new SalaryInfo ();
+                    salaryInfo.setCountProduct(resultSet.getFloat(1));
+                    salaryInfo.setCountEmployee(resultSet.getFloat(2));
+                    salaryInfo.setSumSalary(resultSet.getFloat(3));
                 } while (resultSet.next());
             } else {
                 System.out.println("result set is empty");
             }
             resultSet.close();
+
+            sql = String.format("SELECT * FROM  getemployee('%s','%s');", dateFrom, dateTo);
+            resultSet = stmt.executeQuery(sql);
+
+            if(resultSet.next()){
+                do {
+                    EmpInfo model = new EmpInfo();
+                    model.setSurname(resultSet.getString(1));
+                    model.setName(resultSet.getString(2));
+                    model.setSalary(salaryInfo.getSumSalary());
+                    empInfoList.add(model);
+                } while (resultSet.next());
+            } else {
+                System.out.println("result set is empty");
+            }
+            resultSet.close();
+
+            sql = String.format("select p.id,\n" +
+                            "                           (select product_name from tbl_product_name where id = id_product_name),\n" +
+                            "                           (select product_type from tbl_product_type where id = id_product_type),\n" +
+                            "                           SUM(p.packaging) \"packaging\",\n" +
+                            "                           SUM(p.count_products) \"product\",\n" +
+                            "                           SUM(p.in_bags) \"in bags\",\n" +
+                            "                           SUM(p.count_brak) \"brak workers\",\n" +
+                            "                           SUM(p.count_stanok) \"brak stanok\",\n" +
+                            "                           SUM(p.count_saya) \"brak say\",\n" +
+                            "                           SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) \"made_product_currency\",\n" +
+                            "                           SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) \"made_brak_currency\",\n" +
+                            "                           SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) - SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) \"made_workers_currency\",\n" +
+                            "                           p.create_date_product\n" +
+                            "                       from tbl_product p where p.create_date_product BETWEEN '%s' AND '%s'\n" +
+                            "                       group by id_product_name , id_product_type, p.id\n" +
+                            "                       ORDER BY p.id;", dateFrom, dateTo);
+
+
+            resultSet = stmt.executeQuery(sql);
+            if(resultSet.next()){
+                do {
+                    ProductInfo model = new ProductInfo ();
+                    model.setId(resultSet.getLong(1));
+                    model.setProductName(resultSet.getString(2));
+                    model.setProductType(resultSet.getString(3));
+                    model.setPackaging(resultSet.getFloat(4));
+                    model.setProduct(resultSet.getFloat(5));
+                    model.setInBags(resultSet.getFloat(6));
+                    model.setBrakWorkers(resultSet.getFloat(7));
+                    model.setBrakStanok(resultSet.getFloat(8));
+                    model.setBrakSay(resultSet.getFloat(9));
+                    model.setMadeProductCurrency(resultSet.getFloat(10));
+                    model.setMadeBrakCurrency(resultSet.getFloat(11));
+                    model.setMadeWorkersCurrency(resultSet.getFloat(12));
+                    model.setDate(resultSet.getDate(13));
+
+                    productInfoList.add(model);
+
+                } while (resultSet.next());
+            } else {
+                System.out.println("result set is empty");
+            }
+            resultSet.close();
+
+
+
+
         } catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
@@ -244,19 +308,11 @@ public class ReportDao {
                 se.printStackTrace();
             }
         }
-        return arrayList;
-    }
-
-    public SalaryDto salaryDto(String dateFrom, String dateTo){
-
-        List<SalaryInfoDto> salaryInfoDtoList = getReportSalary(dateFrom,dateTo);
-        List<SalaryDetailInfoDto> salaryDetailInfoDtoList = getDetailSalaryReport(dateFrom,dateTo);
-
-        SalaryDto salaryDto = new SalaryDto();
-        salaryDto.setSalaryInfoDtoList(salaryInfoDtoList);
-        salaryDto.setSalaryDetailInfoDtoList(salaryDetailInfoDtoList);
-
-        return salaryDto;
+        ReportSalaryInfo reportSalaryInfo = new ReportSalaryInfo();
+        reportSalaryInfo.setEmpInfoList(empInfoList);
+        reportSalaryInfo.setProductInfoList(productInfoList);
+        reportSalaryInfo.setSalaryInfo(salaryInfo);
+        return reportSalaryInfo;
     }
 
 }

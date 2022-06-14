@@ -79,4 +79,71 @@ $$;
 
 alter function getsalaryinfo(text, text) owner to "user";
 
+create or replace function getemployee(from_date text, to_date text)
+    returns TABLE(surname character varying, name character varying)
+    language plpgsql
+as
+$$
+BEGIN
+RETURN QUERY  select emp.surname,emp.name from tbl_product prod inner join tbl_product_employees prod_emp
+                                                                     on prod.id = prod_emp.products_id
+                                                          inner join tbl_employee  emp
+                                                                     on emp.id = prod_emp.employees_id
+        where prod.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
+        group by emp.name, emp.surname;
+END;
+$$;
+
+alter function getemployee(text, text) owner to "user";
+
+create or replace function getsalary(from_date text, to_date text)
+    returns TABLE(count_product double precision, count_employee double precision, sum_salary double precision)
+    language plpgsql
+as
+$$
+DECLARE
+count_product float;
+         count_employee float;
+         sum_salary float;
+BEGIN
+WITH productCount
+         as (
+        select
+            p.id,
+            (select product_name from tbl_product_name prod where prod.id = p.id_product_name),
+            (select product_type from tbl_product_type prod where prod.id = p.id_product_type),
+            SUM(p.packaging) "packaging",
+            SUM(p.count_products) "product",
+            SUM(p.in_bags) "in bags",
+            SUM(p.count_brak) "brak workers",
+            SUM(p.count_stanok) "brak stanok",
+            SUM(p.count_saya) "brak say",
+            SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_product_currency",
+            SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_brak_currency",
+            SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) - SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_workers_currency"
+        from tbl_product p where p.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
+        group by id_product_name , id_product_type, p.id)
+select
+    sum(made_workers_currency) into count_product
+from productCount;
+
+WITH employeeCount
+         AS(
+        select emp.surname,emp.surname from tbl_product prod inner join tbl_product_employees prod_emp
+                                                                        on prod.id = prod_emp.products_id
+                                                             inner join tbl_employee  emp
+                                                                        on emp.id = prod_emp.employees_id
+        where prod.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
+        group by
+            emp.name, emp.surname)
+SELECT count(*) into count_employee
+FROM employeeCount;
+sum_salary = count_product / count_employee;
+
+RETURN QUERY  select count_product,count_employee,sum_salary;
+
+END;
+$$;
+
+alter function getsalary(text, text) owner to "user";
 

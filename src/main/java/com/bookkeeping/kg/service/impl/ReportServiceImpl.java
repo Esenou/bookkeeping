@@ -5,6 +5,8 @@ import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.model.SalaryDetailInfoDto;
 import com.bookkeeping.kg.model.SalaryDto;
 import com.bookkeeping.kg.model.SalaryInfoDto;
+import com.bookkeeping.kg.model.salary.ProductInfo;
+import com.bookkeeping.kg.model.salary.ReportSalaryInfo;
 import com.bookkeeping.kg.service.ProductService;
 import com.bookkeeping.kg.service.ReportService;
 import com.bookkeeping.kg.service.report.ExcelService;
@@ -47,8 +49,8 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     @Override
-    public List<SalaryInfoDto> getReportSalary(String dateFrom, String dateTo) {
-        return reportDao.getReportSalary(dateFrom,dateTo);
+    public List<ProductInfo> getReportSalary(String dateFrom, String dateTo) {
+        return reportDao.getReportSalary(dateFrom,dateTo).getProductInfoList();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ReportServiceImpl  implements ReportService {
     @Override
     public void getDetailReportSalaryXls(String dateFrom, String dateTo, HttpServletResponse response) throws Exception {
 
-        SalaryDto salaryDto = reportDao.salaryDto(dateFrom,dateTo);
+        ReportSalaryInfo salaryDto = reportDao.getReportSalary(dateFrom,dateTo);
 
 
         ExcelService excelService = new ExcelService(salaryDto, messageSource,new Locale("ru", "RU"));
