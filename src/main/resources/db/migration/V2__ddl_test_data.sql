@@ -77,7 +77,7 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "postgres";
+alter function getsalaryinfo(text, text) owner to "somecupwkktpqv";
 
 create or replace function getemployee(from_date text, to_date text)
     returns TABLE(surname character varying, name character varying)
@@ -94,7 +94,7 @@ RETURN QUERY  select emp.surname,emp.name from tbl_product prod inner join tbl_p
 END;
 $$;
 
-alter function getemployee(text, text) owner to "postgres";
+alter function getemployee(text, text) owner to "somecupwkktpqv";
 
 create function getsalary(from_date text, to_date text)
     returns TABLE(surname character varying, name character varying,salary double precision, create_date date )
@@ -170,6 +170,6 @@ drop table salary;
 END;
 $$;
 
-alter function getsalary(text, text) owner to postgres;
+alter function getsalary(text, text) owner to "somecupwkktpqv";
 
 
