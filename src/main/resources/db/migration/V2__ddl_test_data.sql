@@ -77,7 +77,7 @@ BEGIN
 END;
 $$;
 
-alter function getsalaryinfo(text, text) owner to "user";
+alter function getsalaryinfo(text, text) owner to "postgres";
 
 create or replace function getemployee(from_date text, to_date text)
     returns TABLE(surname character varying, name character varying)
@@ -94,18 +94,18 @@ RETURN QUERY  select emp.surname,emp.name from tbl_product prod inner join tbl_p
 END;
 $$;
 
-alter function getemployee(text, text) owner to "user";
+alter function getemployee(text, text) owner to "postgres";
 
-create or replace function getsalary(from_date text, to_date text)
-    returns TABLE(count_product double precision, count_employee double precision, sum_salary double precision)
+create function getsalary(from_date text, to_date text)
+    returns TABLE(surname character varying, name character varying,salary double precision, create_date date )
     language plpgsql
 as
 $$
-DECLARE
-count_product float;
-         count_employee float;
-         sum_salary float;
 BEGIN
+    create TEMPORARY table product(
+                                      count_product float,
+                                      create_date_product date);
+
 WITH productCount
          as (
         select
@@ -120,30 +120,56 @@ WITH productCount
             SUM(p.count_saya) "brak say",
             SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_product_currency",
             SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_brak_currency",
-            SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) - SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_workers_currency"
+            SUM(p.count_products) * (select product_price from tbl_product_name  prod where prod.id = p.id_product_name) - SUM(p.count_brak) * (select prod.brak_price from tbl_product_name  prod where prod.id = p.id_product_name) "made_workers_currency",
+            p.create_date_product
         from tbl_product p where p.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
         group by id_product_name , id_product_type, p.id)
-select
-    sum(made_workers_currency) into count_product
-from productCount;
+insert into product select
+                        sum(made_workers_currency),
+                        create_date_product
+                    from productCount
+                    group by create_date_product;
 
+create TEMPORARY table employee(
+                                       count_employee float,
+                                       create_date_product date);
 WITH employeeCount
          AS(
-        select emp.surname,emp.surname from tbl_product prod inner join tbl_product_employees prod_emp
-                                                                        on prod.id = prod_emp.products_id
-                                                             inner join tbl_employee  emp
-                                                                        on emp.id = prod_emp.employees_id
+        select emp.id, prod.create_date_product from tbl_product prod inner join tbl_product_employees prod_emp
+                                                                                 on prod.id = prod_emp.products_id
+                                                                      inner join tbl_employee  emp
+                                                                                 on emp.id = prod_emp.employees_id
         where prod.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
         group by
-            emp.name, emp.surname)
-SELECT count(*) into count_employee
-FROM employeeCount;
-sum_salary = count_product / count_employee;
+            emp.id,prod.create_date_product)
+insert into employee SELECT  count(create_date_product) as count_product , create_date_product  from employeeCount
+                     group by create_date_product;
 
-RETURN QUERY  select count_product,count_employee,sum_salary;
 
+create TEMPORARY table salary(salary float,
+                                  create_date date);
+
+insert into  salary select count_product/e.count_employee as salary,
+                           e.create_date_product as create_date
+from product inner join employee e on product.create_date_product = e.create_date_product;
+
+
+
+
+RETURN QUERY  select emp.surname,emp.name,s.salary, prod.create_date_product from tbl_product prod inner join tbl_product_employees prod_emp
+                                                                                                        on prod.id = prod_emp.products_id
+                                                                                             inner join tbl_employee  emp
+                                                                                                        on emp.id = prod_emp.employees_id
+                                                                             inner join salary s on prod.create_date_product = s.create_date
+                  where prod.create_date_product BETWEEN to_date(from_date,'YYYY-MM-DD') AND to_date(to_date,'YYYY-MM-DD')
+                  group by s.salary, emp.name, emp.surname, prod.create_date_product;
+
+drop table product;
+drop table employee;
+drop table salary;
 END;
 $$;
 
-alter function getsalary(text, text) owner to "user";
+alter function getsalary(text, text) owner to postgres;
+
 

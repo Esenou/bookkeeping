@@ -54,7 +54,7 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     @Override
-    public List<SalaryDetailInfoDto> getDetailReportSalary(String dateFrom, String dateTo) {
+    public List<ProductInfo> getDetailReportSalary(String dateFrom, String dateTo) {
         return reportDao.getDetailSalaryReport(dateFrom,dateTo);
     }
 

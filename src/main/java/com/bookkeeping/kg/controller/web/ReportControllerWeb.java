@@ -3,6 +3,7 @@ package com.bookkeeping.kg.controller.web;
 import com.bookkeeping.kg.model.ProductDto;
 import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.model.SalaryDetailInfoDto;
+import com.bookkeeping.kg.model.salary.ProductInfo;
 import com.bookkeeping.kg.service.ReportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,8 +53,8 @@ public class ReportControllerWeb {
 
     @ResponseBody
     @GetMapping("/getDetailReportSalary")
-    public List<SalaryDetailInfoDto> getSalary (@RequestParam("from") String dateFrom,
-                                                @RequestParam("to") String dateTo){
+    public List<ProductInfo> getSalary (@RequestParam("from") String dateFrom,
+                                        @RequestParam("to") String dateTo){
         return reportService.getDetailReportSalary(dateFrom, dateTo);
     }
 

@@ -1,6 +1,19 @@
 package com.bookkeeping.kg.model.salary;
 
+import java.sql.Date;
+
 public class EmpInfo {
+
+    private Date createDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     private String surname;
 
     public String getSurname() {

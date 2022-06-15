@@ -2,6 +2,7 @@ package com.bookkeeping.kg.service.report;
 
 import com.bookkeeping.kg.model.ReportsDto;
 import com.bookkeeping.kg.model.SalaryDto;
+import com.bookkeeping.kg.model.salary.EmpInfo;
 import com.bookkeeping.kg.model.salary.ReportSalaryInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,7 +26,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
 
 
 public class ExcelService {
@@ -90,6 +95,7 @@ public class ExcelService {
         createCell(rows.get(1), 13, getLocaleMessage("rep.surname.worker"), styleHaeder);
         createCell(rows.get(1), 14, getLocaleMessage("report.name.worker"), styleHaeder);
         createCell(rows.get(1), 15, getLocaleMessage("report.workerMadeCurrency"), styleHaeder);
+        createCell(rows.get(1), 16, getLocaleMessage("report.createDate"), styleHaeder);
 
     }
 
@@ -115,13 +121,14 @@ public class ExcelService {
             createCell(this.rows.get(2 + salaryDto.getProductInfoList().indexOf(tr)), columnNum + 11, tr.getDate().toString(), style);
         });
 
-        createCell(this.rows.get(salaryDto.getProductInfoList().size()+2),  10, String.valueOf(salaryDto.getSalaryInfo().getCountProduct()), style);
+      //  createCell(this.rows.get(salaryDto.getProductInfoList().size()+2),  10, String.valueOf(salaryDto.getSalaryInfo().getCountProduct()), style);
 
        salaryDto.getEmpInfoList().forEach(tr -> {
             int columnNum = 13;
             createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum, tr.getSurname(), style);
             createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum + 1, tr.getName().toString(), style);
             createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum + 2, String.valueOf(tr.getSalary()), style);
+            createCell(this.rows.get(2 + salaryDto.getEmpInfoList().indexOf(tr)), columnNum + 3, String.valueOf(tr.getCreateDate()), style);
        });
     }
 

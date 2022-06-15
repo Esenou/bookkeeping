@@ -1,31 +1,25 @@
 package com.bookkeeping.kg.model.salary;
 
+import java.sql.Date;
+
 public class SalaryInfo {
-    private float countProduct;
-    private float countEmployee;
-    private float sumSalary;
 
-    public float getCountProduct() {
-        return countProduct;
+    private float salary;
+    private Date date;
+
+    public float getSalary() {
+        return salary;
     }
 
-    public void setCountProduct(float countProduct) {
-        this.countProduct = countProduct;
+    public void setSalary(float salary) {
+        this.salary = salary;
     }
 
-    public float getCountEmployee() {
-        return countEmployee;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCountEmployee(float countEmployee) {
-        this.countEmployee = countEmployee;
-    }
-
-    public float getSumSalary() {
-        return sumSalary;
-    }
-
-    public void setSumSalary(float sumSalary) {
-        this.sumSalary = sumSalary;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

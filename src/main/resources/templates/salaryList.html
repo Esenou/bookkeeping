@@ -96,33 +96,36 @@
                     console.log(data);
 
                     let i;
-                    let workerMadeCurrency = 0;
-                    let brakMadeCurrency = 0;
-                    let productMadeCurrency = 0;
+                    let madeProductCurrency = 0;
+                    let madeBrakCurrency = 0;
+                    let madeWorkersCurrency = 0;
                     for (i = 0; i < data.length; i++) {
-                        workerMadeCurrency += data[i].workerMadeCurrency;
-                        brakMadeCurrency += data[i].brakMadeCurrency;
-                        productMadeCurrency += data[i].productMadeCurrency;
+                        madeProductCurrency += data[i].madeProductCurrency;
+                        madeBrakCurrency += data[i].madeBrakCurrency;
+                        madeWorkersCurrency += data[i].madeWorkersCurrency;
                     }
 
                                 printJS({
                                     printable:data,
                                     properties: [
-                                        {field: 'productName', displayName: 'Модели'},
-                                        {field: 'productType', displayName: 'Тип Модели'},
-                                        {field: 'workerName', displayName: 'Имя Рабочего'},
+                                        {field: 'productName', displayName: 'Модель'},
+                                        {field: 'productType', displayName: 'Вид Моделей'},
+                                        {field: 'packaging', displayName: 'Упаковка'},
                                         {field: 'product', displayName: 'Продукт'},
-                                        {field: 'workerBrak', displayName: 'Брак Рабочие'},
-                                        {field: 'productMadeCurrency', displayName: 'Сдельная пар'},
-                                        {field: 'brakMadeCurrency', displayName: 'Брак в Сомах'},
-                                        {field: 'workerMadeCurrency', displayName: 'Выплата'},
-                                        {field: 'createDate', displayName: 'Дата'}
+                                        {field: 'inBags', displayName: 'В мешках'},
+                                        {field: 'brakWorkers', displayName: 'Брак Рабочие'},
+                                        {field: 'brakStanok', displayName: 'Брак станок'},
+                                        {field: 'brakSay', displayName: 'Брак сая'},
+                                        {field: 'madeProductCurrency', displayName: 'Сдельная пар'},
+                                        {field: 'madeBrakCurrency', displayName: 'Брак в Сомах'},
+                                        {field: 'madeWorkersCurrency', displayName: 'Выплата'},
+                                        {field: 'date', displayName: 'Дата'}
                                     ],
                                     type: 'json',
                                     header: ('          Общее кол-во \n' +
-                                        'сдельная пар:' + productMadeCurrency + '\n' +
-                                        'брак в сомах:' + brakMadeCurrency + '\n' +
-                                        'выплата:' + workerMadeCurrency + '\n')
+                                        'сдельная пар:' + madeProductCurrency + '\n' +
+                                        'брак в сомах:' + madeBrakCurrency + '\n' +
+                                        'выплата:' + madeWorkersCurrency + '\n')
 
                                 });
 
