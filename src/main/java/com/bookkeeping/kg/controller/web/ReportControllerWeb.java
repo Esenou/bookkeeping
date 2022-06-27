@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -27,7 +29,10 @@ public class ReportControllerWeb {
 
     @GetMapping("/list")
     public String getList(Model model) {
-        model.addAttribute("reportList", reportService.getReportAll());
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String yyyyMMdd = sdf.format(date);
+        model.addAttribute("reportList", reportService.getReports(yyyyMMdd, yyyyMMdd).getProductDtoList());
         return "reportList";
     }
 

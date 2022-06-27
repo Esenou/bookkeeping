@@ -58,8 +58,12 @@ public class ProductServiceImpl extends BaseServiceImpl <Product, ProductReposit
 
 
     @Override
-    public Page<Product> findByProductNameOrProductType(Pageable pageable, String text) {
+    public Page<Product> findByProductNameOrProductTypeAndOrderByCreateDateProductDesc(Pageable pageable, String text) {
         return productRepository.findByProductNameOrProductType(pageable,text);
     }
 
+    @Override
+    public Page<Product> findAllByProductNameOrProductType(Pageable pageable) {
+        return productRepository.findAllByProductNameOrProductType(pageable);
+    }
 }

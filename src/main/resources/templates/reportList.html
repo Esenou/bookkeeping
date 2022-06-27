@@ -165,38 +165,42 @@
                 });
             </script>
 
-<!--            <div class="card-body p-0">-->
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table">-->
-<!--                        <thead class="bg-light">-->
-<!--                        <tr class="border-0">-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.productName}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.productType}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.product}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakWorkers}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakStanok}"></th>-->
-<!--                            <th class="border-0" data-th-text="#{reportList.label.brakSay}"></th>-->
-<!--                            <th class="table-warning" data-th-text="#{reportList.label.all}"></th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody id="reportTableBody">-->
-<!--                        <div th:each="report : ${reportList}">-->
-<!--                            <tr th:classappend="${report.productType == 'ИТОГО:'} ? table-info : table-light">-->
-<!--                                <td th:text="${report.productName}"></td>-->
-<!--                                <td th:text="${report.productType}"></td>-->
-<!--                                <td th:text="${report.product}"></td>-->
-<!--                                <td th:text="${report.brakWorkers}"></td>-->
-<!--                                <td th:text="${report.brakStanok}"></td>-->
-<!--                                <td th:text="${report.brakSay}"></td>-->
-<!--                                <td th:text="${report.all}"></td>-->
-<!--                            </tr>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;    end of looping     &ndash;&gt;-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="bg-light">
+                        <tr class="border-0">
+                            <th class="border-0" data-th-text="#{reportList.label.productName}"></th>
+                            <th class="border-0" data-th-text="#{reportList.label.productType}"></th>
+                            <th class="border-0" data-th-text="#{rep.packaging}"></th>
+                            <th class="border-0" data-th-text="#{reportList.label.product}"></th>
+                            <th class="border-0" data-th-text="#{rep.inBags}"></th>
+                            <th class="border-0" data-th-text="#{reportList.label.brakWorkers}"></th>
+                            <th class="border-0" data-th-text="#{reportList.label.brakStanok}"></th>
+                            <th class="border-0" data-th-text="#{reportList.label.brakSay}"></th>
+                          <!--  <th class="table-warning" data-th-text="#{reportList.label.all}"></th>-->
+                        </tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                        <div th:each="report : ${reportList}">
+                            <tr th:classappend="${report.productType == 'ИТОГО:'} ? table-info : table-light">
+                                <td th:text="${report.productName}"></td>
+                                <td th:text="${report.productType}"></td>
+                                <td th:text="${report.packaging}"></td>
+                                <td th:text="${report.product}"></td>
+                                <td th:text="${report.inBags}"></td>
+                                <td th:text="${report.brakWorkers}"></td>
+                                <td th:text="${report.brakStanok}"></td>
+                                <td th:text="${report.brakSay}"></td>
+                             <!--   <td th:text="${report.all}"></td>-->
+                            </tr>
+                        </div>
+                        <!--    end of looping     -->
+                        </tbody>
+                    </table>
+                </div>
 
-<!--            </div>-->
+            </div>
         </div>
     </div>
 </div>

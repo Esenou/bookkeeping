@@ -48,7 +48,7 @@ public class ExcelService {
         this.salaryDto = salaryDto;
         this.rows = new ArrayList<>();
         this.messageSource = messageSource;
-        IntStream.range(0, 16 + salaryDto.getProductInfoList().size()).forEach(i -> rows.add(sheet.createRow(i)));
+        IntStream.range(0, 16 + salaryDto.getProductInfoList().size()+salaryDto.getEmpInfoList().size()).forEach(i -> rows.add(sheet.createRow(i)));
     }
     String getLocaleMessage(String message){
         return messageSource.getMessage(message, null, locale);

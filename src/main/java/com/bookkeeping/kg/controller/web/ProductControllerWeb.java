@@ -31,9 +31,9 @@ public class ProductControllerWeb {
                           Model model) {
         Page<Product> productsList = null;
         if(search != null && !search.isEmpty()){
-            productsList = productService.findByProductNameOrProductType(pageable,search);
+            productsList = productService.findByProductNameOrProductTypeAndOrderByCreateDateProductDesc(pageable,search);
         } else {
-            productsList = productService.findByAllWithPagination(pageable);
+            productsList = productService.findAllByProductNameOrProductType(pageable);
         }
 
         model.addAttribute("productsList", productsList);
@@ -42,7 +42,6 @@ public class ProductControllerWeb {
 
     @GetMapping("/form")
     public String getForm(Model model){
-        List<Product> productsList = productService.findByAll();
         model.addAttribute("add", true);
         model.addAttribute("product", new Product());
         model.addAttribute("productNameList",  productService.findByAllProductName());

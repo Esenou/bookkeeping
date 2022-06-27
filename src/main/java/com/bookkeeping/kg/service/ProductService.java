@@ -11,12 +11,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService extends BaseService<Product> {
-
-    Page<Product> findByProductNameOrProductType(Pageable pageable, String text);
+    Page<Product> findByProductNameOrProductTypeAndOrderByCreateDateProductDesc(Pageable pageable, String text);
 
     List<ProductName> findByAllProductName();
 
     List<ProductType> findByAllProductType();
 
     List<Employee> findByAllEmployee();
+
+    Page<Product> findAllByProductNameOrProductType(Pageable pageable);
 }
